@@ -1,0 +1,58 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  background: url("./images/bg_white_elegant.avif") no-repeat center center fixed;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+}
+
+.logo {
+  height: 2em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+
+
+
+.logoReactHome {
+  margin-top: 20px;
+  height: 17em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logoReactHome:hover {
+  filter: drop-shadow(0 0 2em #000000);
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logoReactHome {
+    animation: logo-spin infinite 20s linear;
+  }
+}
