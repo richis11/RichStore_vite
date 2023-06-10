@@ -9,7 +9,7 @@ Este es el frontend del proyecto Rich Store Online Shop.
 Lo que debes hacer para que funcione esto 
 es escribir el siguiente comando:
 
-> npm i run dev
+> npm run dev
 
 Y listo, eso es todo.
 
