@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Table, Button, Row, Col, Card, Modal, Form } from "react-bootstrap";
+import { Table, Button, ButtonGroup, InputGroup, Row, Col, Card, Modal, Form } from "react-bootstrap";
 import { CarritoContext } from "../context/CarritoContext";
 import cliente_service from "../services/cliente_service";
 import venta_service from '../services/venta_service'
+import venta_detalle_service from '../services/venta_detalle_service'
 import productExample from "../images/productExample2.png";
+import {v4 as uuidV4} from 'uuid'
 
 function Carrito() {
-  const { items, carrito, quitar_del_carrito } = useContext(CarritoContext);
+  const { items, carrito, SetCarrito, quitar_del_carrito } = useContext(CarritoContext);
   const [venta, SetVenta] = useState({ id_transaccion:'', 
   id_cliente:null,  nom_cliente:'', dir_cliente:'', 
   cant_productos:0, subtotal: 0, iva: 0, descuento:0, total: 0 , tipo_pago:''});
@@ -47,7 +49,7 @@ function Carrito() {
     let total = 0;
     let descuento = 0;
     carrito.map((producto) => {
-      subtotal += producto.precio_ven;
+      subtotal += producto.precio;
       iva = subtotal * 0.12;
       total = subtotal + iva;
     });
@@ -81,11 +83,18 @@ function Carrito() {
 
   const crearVenta = () =>{
     if (cliente.nombres){
-      SetVenta({ ...venta, id_transaccion:'XXX-XXX-XX1', 
+      let uuidTransaccion = uuidV4()
+      SetVenta({ ...venta, id_transaccion:uuidTransaccion, 
       id_cliente:cliente.id,  nom_cliente:cliente.nombres, dir_cliente:cliente.direccion, 
       tipo_pago:'PAGO DIRECTO💸'})
+
+      const carrito_actualizado = carrito.map((producto)=>{
+        console.log(producto.nombre)
+        return{ ...producto, id_transaccion: uuidTransaccion }
+      })
+      SetCarrito(carrito_actualizado)
     
-      console.log('crearVenta dice: existe cliente')
+      console.log('UUID: '+uuidTransaccion)
     }    
     else
     {
@@ -98,7 +107,13 @@ function Carrito() {
       console.log("PAGAR DICE: el cliente seleccionado es :");
       console.log(cliente);
       console.log(carrito)
+
       venta_service.crearVenta(venta)
+
+    carrito.map((producto)=>{
+      venta_detalle_service.crearVenta_detalle(producto)
+      
+    })
 
     }
     else{
@@ -120,20 +135,30 @@ function Carrito() {
                   <th>Categoria</th>
                   <th>Descripción</th>
                   <th>Precio</th>
+                  <th>Cantidad</th>
                 </tr>
               </thead>
               <tbody>
                 {carrito.map((producto) => (
-                  <tr key={producto.id}>
+                  <tr key={producto.id_producto}>
                     <td>{producto.nombre}</td>
                     <td>{producto.categoria}</td>
                     <td>{producto.descripcion}</td>
-                    <td>${producto.precio_ven}</td>
+                    <td>${producto.precio}</td>
+                    <td>
+                      <InputGroup aria-label="Basic example">
+                        <ButtonGroup>
+                          <Button variant="secondary">-</Button>
+                          <InputGroup.Text>{producto.cantidad}</InputGroup.Text>
+                          <Button variant="secondary">+</Button>
+                        </ButtonGroup>
+                      </InputGroup>
+                    </td>
 
                     <td>
                       <Button
                         variant="outline-dark"
-                        onClick={() => quitar_del_carrito(producto.id)}
+                        onClick={() => quitar_del_carrito(producto.id_producto)}
                       >
                         Quitar
                       </Button>
@@ -224,6 +249,22 @@ function Carrito() {
                 {cliente.nombres}
               </option>
             ))}
+          </Form.Select>
+          <br />
+          <h5>Método de pago</h5>
+          <Form.Select
+            name="tipo_pago"
+            onChange={(e) => SetVenta({ ...venta, tipo_pago: e.target.value })}
+          >
+            <option key={0} value={0}>
+              Seleccionar método de pago
+            </option>
+            <option key={1} value={'🅿 PayPal'}>
+             🅿 PayPal 
+            </option>
+            <option key={2} value={'💳 Tarjeta de crédito o débito '}>
+            💳 Tarjeta de crédito o débito 
+            </option>
           </Form.Select>
           <br />
           <h5>

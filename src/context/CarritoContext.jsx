@@ -11,9 +11,10 @@ export function CarritoContextProvider(props) {
     SetItems(carrito.length+1);
   };
 
-  const quitar_del_carrito = (producto_id) => {
-     SetCarrito(carrito.filter((producto) => producto_id !== producto.id));
+  const quitar_del_carrito = (id_producto) => {
+     SetCarrito(carrito.filter((producto) => id_producto !== producto.id_producto));
      SetItems(carrito.length-1);
+     console.log(carrito)
   };
 
  
@@ -24,6 +25,7 @@ export function CarritoContextProvider(props) {
         carrito, items,
         agregar_al_carrito,
         quitar_del_carrito,
+        SetCarrito
 
       }}
     >

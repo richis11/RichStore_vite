@@ -42,7 +42,8 @@ function AdmCLientes() {
   };
 
   const getClientes = async () => {
-    SetClientes(await cliente_service.getClientes());
+    let lista_clientes=await cliente_service.getClientes()
+    SetClientes(lista_clientes.reverse());
   };
 
   const crearCliente = async (cliente) => {

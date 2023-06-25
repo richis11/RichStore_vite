@@ -7,7 +7,7 @@ import {
   Navbar,
   NavbarBrand,
   Dropdown,
-  NavDropdown,
+  NavDropdown, InputGroup, ButtonGroup
 } from "react-bootstrap";
 import reactLogo from "../../assets/react.svg";
 //import viteLogo from "../../../public/vite.svg";
@@ -19,7 +19,7 @@ const {items} = useContext(CarritoContext)
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <NavbarBrand as={NavLink} to="/home">⭐ RICH STORE ⭐ 💰💳🛒🚛🎮</NavbarBrand>
+        <NavbarBrand as={NavLink} to="/home">⭐ RICH STORE ⭐</NavbarBrand>
         <Nav>
           <NavDropdown title="Gestion Personas">
             <NavDropdown.Item as={NavLink} to="/adm-clientes">
@@ -44,8 +44,18 @@ const {items} = useContext(CarritoContext)
           <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
         </Nav>
         
-        <Navbar.Collapse className="justify-content-end">
-        <div className="me-3">
+        <Navbar.Collapse className="justify-content-end ms-3">
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder="Buscador proximamente... ⚠"
+            aria-label="Input group example"
+            aria-describedby="btnGroupAddon"
+          />
+          <Button variant='secondary'><i class="bi bi-search"></i></Button>
+        </InputGroup>
+
+        <div className="me-3 ms-3">
           <a href="https://vitejs.dev" target="_blank">
             {/* <img src={viteLogo} className="logo" alt="Vite logo" /> */}
           </a>

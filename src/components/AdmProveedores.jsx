@@ -44,7 +44,8 @@ function AdmProveedores() {
   };
 
   const getProveedores = async () => {
-    SetProveedores(await proveedor_service.getProveedores());
+    let lista_proveedores=await proveedor_service.getProveedores()
+    SetProveedores(lista_proveedores.reverse());
   };
 
   const crearProveedor = async (proveedor) => {

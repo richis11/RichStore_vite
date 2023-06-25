@@ -36,7 +36,8 @@ function AdmProductos() {
   };
 
   const getProducts = async () => {
-    SetProductos(await producto_service.getProductos());
+    let lista_productos=await producto_service.getProductos()
+    SetProductos(lista_productos.reverse());
   };
 
   const crearProducto = async (producto) => {

@@ -8,6 +8,7 @@ function Home() {
     <div style={{ textAlign: "center" }}>
       <br />
       <h1>😎 WELCOME TO THA RICH STORE 😎 </h1>
+      <h3>💰💳🛒🚛🎮</h3>
       <h3>Here you will be able to sell wathever you want, and that's cool!</h3>
       <h5>but now, we're still building this app... please wait...</h5>
       <br /> <br />

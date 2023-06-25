@@ -50,7 +50,8 @@ function AdmEmpleados() {
   };
 
   const getEmpleados = async () => {
-    SetEmpleados(await empleado_service.getEmpleados());
+    let lista_empleados=await empleado_service.getEmpleados()
+    SetEmpleados(lista_empleados.reverse());
   };
 
   const crearEmpleado = async (empleado) => {
