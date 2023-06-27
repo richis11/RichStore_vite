@@ -8,8 +8,8 @@ import productExample from "../images/productExample2.png";
 import {v4 as uuidV4} from 'uuid'
 
 function Carrito() {
-  const { items, carrito, SetCarrito, quitar_del_carrito } = useContext(CarritoContext);
-  const [venta, SetVenta] = useState({ id_transaccion:'', 
+  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito } = useContext(CarritoContext);
+  const [venta, SetVenta] = useState({ id_transaccion:'',fecha:null, 
   id_cliente:null,  nom_cliente:'', dir_cliente:'', 
   cant_productos:0, subtotal: 0, iva: 0, descuento:0, total: 0 , tipo_pago:''});
   const [clientes, SetClientes] = useState([]);
@@ -30,6 +30,10 @@ function Carrito() {
       direccion: "",
     });
   };
+  const vaciarCarrito = () => {
+    SetCarrito([])
+    SetItems(0)
+  }
 
  
 
@@ -84,7 +88,7 @@ function Carrito() {
   const crearVenta = () =>{
     if (cliente.nombres){
       let uuidTransaccion = uuidV4()
-      SetVenta({ ...venta, id_transaccion:uuidTransaccion, 
+      SetVenta({ ...venta, id_transaccion:uuidTransaccion, fecha: Date(),
       id_cliente:cliente.id,  nom_cliente:cliente.nombres, dir_cliente:cliente.direccion, 
       tipo_pago:'PAGO DIRECTO💸'})
 
@@ -107,7 +111,7 @@ function Carrito() {
       console.log("PAGAR DICE: el cliente seleccionado es :");
       console.log(cliente);
       console.log(carrito)
-
+      
       venta_service.crearVenta(venta)
 
     carrito.map((producto)=>{
@@ -124,7 +128,15 @@ function Carrito() {
   return (
     <>
       <div className="container mt-3">
-        <h1 style={{ textAlign: "right" }}>Carrito🛒</h1>
+        <Row>
+        <Col>
+            <Button style={{ textAlign: "left" }} variant="danger" 
+            onClick={vaciarCarrito}>Vaciar el carrito</Button>
+          </Col>
+          <Col>
+            <h1 style={{ textAlign: "right" }}>Carrito🛒</h1>
+          </Col>
+        </Row>
         <hr />
         <Row>
           <Col>

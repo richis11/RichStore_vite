@@ -19,7 +19,7 @@ const {items} = useContext(CarritoContext)
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <NavbarBrand as={NavLink} to="/home">⭐ RICH STORE ⭐</NavbarBrand>
+        <NavbarBrand as={NavLink} to="/">⭐ RICH STORE ⭐</NavbarBrand>
         <Nav>
           <NavDropdown title="Gestion Personas">
             <NavDropdown.Item as={NavLink} to="/adm-clientes">
@@ -39,7 +39,7 @@ const {items} = useContext(CarritoContext)
             
           </NavDropdown>
           <Nav.Link as={NavLink} to="/tarjetas">Tarjetas Productos⏳</Nav.Link>
-          <Nav.Link as={NavLink} to="/ventas">Ventas⏳</Nav.Link>
+          <Nav.Link as={NavLink} to="/ventas">Ventas</Nav.Link>
           <Nav.Link as={NavLink} to="/envios">Envios⚠</Nav.Link>
           <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
         </Nav>

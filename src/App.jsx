@@ -10,6 +10,7 @@ import AdmProductos from "./components/AdmProductos";
 import TarjetasProductos from "./components/TarjetasProductos";
 import Carrito from "./components/Carrito";
 import Ventas from "./components/Ventas";
+import PDFDocument from "./components/PDFDocument";
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
       <ItemNavbar />
 
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
         <Route path="/adm-clientes" element={<AdmCLientes />} />
         <Route path="/adm-empleados" element={<AdmEmpleados />} />
@@ -37,6 +38,10 @@ function App() {
         <Route path="/tarjetas" element={<TarjetasProductos/>} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/ventas" element={<Ventas />} />
+
+          {/* EN DESARROOLLO */}
+          <Route path="/pdf" element={<PDFDocument />} />
+
 
         <Route path="*" element={pageNotFound()} />
       </Routes>

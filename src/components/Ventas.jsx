@@ -2,14 +2,21 @@ import React, { useState, useEffect } from "react";
 import venta_service from "../services/venta_service";
 import venta_detalle_service from "../services/venta_detalle_service";
 import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
+import PDF_Factura from "./PDF_Factura";
 
 function Ventas() {
   const [ventas, SetVentas] = useState([]);
+  const [venta, SetVenta] = useState([]);
   const [venta_detalles, SetVenta_detalles] = useState([]);
+  const [transaccion, Set_transaccion] = useState("XXXX-XXXX-XXXX");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [show1, setShow1] = useState(false);
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
 
   useEffect(() => {
     getVentas();
@@ -20,14 +27,20 @@ function Ventas() {
     SetVentas(lista_ventas.reverse());
   };
 
-  const verDetalles = async (id_transaccion) => {
+  const verDetalles = async (venta) => {
     console.log("ver_detalles");
+    SetVenta(venta);
     SetVenta_detalles(
-      await venta_detalle_service.getVenta_detalle(id_transaccion)
+      await venta_detalle_service.getVenta_detalle(venta.id_transaccion)
     );
     console.log(venta_detalles);
     handleShow();
   };
+
+  const generar_factura_pdf = (ventas, venta_detalles) =>{
+
+    handleShow1();
+  }
 
   return (
     <>
@@ -50,6 +63,7 @@ function Ventas() {
               <tr>
                 <th>#</th>
                 <th>id_transaccion</th>
+                <th>fecha</th>
                 <th>id_cliente</th>
                 <th>Nombres</th>
                 <th>Dirección</th>
@@ -67,6 +81,11 @@ function Ventas() {
                 <tr key={venta.id}>
                   <td>{venta.id}</td>
                   <td>{venta.id_transaccion}</td>
+                  <td>
+                    {new Date(venta.fecha).toLocaleString("es-EC", {
+                      timeZone: "America/Guayaquil",
+                    })}
+                  </td>
                   <td>{venta.id_cliente}</td>
                   <td>{venta.nom_cliente}</td>
                   <td>{venta.dir_cliente}</td>
@@ -79,7 +98,7 @@ function Ventas() {
                   <td>
                     <Button
                       variant="primary"
-                      onClick={() => verDetalles(venta.id_transaccion)}
+                      onClick={() => verDetalles(venta)}
                     >
                       ver detalles
                     </Button>
@@ -94,13 +113,26 @@ function Ventas() {
       {/* ------------------------------------------------------------  MODAL DETALLES  */}
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Detalles de la venta 📋</Modal.Title>
+          <Modal.Title>
+            Detalles de la venta 📋 {venta.id_transaccion}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Row>
+            <Col>
+              <h4>CLIENTE: {venta.nom_cliente}</h4>
+              <h4>DIRECCIÓN: {venta.dir_cliente}</h4>
+            </Col>
+            <Col sm={4}>
+              <h4>Cant. items: {venta.cant_productos}</h4>
+              <h4>TOTAL: ${venta.total}</h4>
+              <Button variant="success" onClick={generar_factura_pdf}>Generar factura📃</Button>
+            </Col>
+          </Row>
+          <hr />
           <Table>
             <thead>
               <tr>
-                <th>id_transaccion</th>
                 <th>id_producto</th>
                 <th>Nombre</th>
                 <th>Categoria</th>
@@ -112,7 +144,6 @@ function Ventas() {
             <tbody>
               {venta_detalles.map((producto) => (
                 <tr key={producto.id}>
-                  <td>{producto.id_transaccion}</td>
                   <td>{producto.id_producto}</td>
                   <td>{producto.nombre}</td>
                   <td>{producto.categoria}</td>
@@ -126,6 +157,23 @@ function Ventas() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
+            Volver
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* ------------------------------------------------------------  MODAL FACTURA  */}
+      <Modal show={show1} onHide={handleClose1} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>
+            FACTURA 📋 {venta.id_transaccion}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+                <PDF_Factura venta={venta} venta_detalles={venta_detalles}/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose1}>
             Volver
           </Button>
         </Modal.Footer>

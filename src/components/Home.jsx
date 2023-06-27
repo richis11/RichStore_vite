@@ -1,7 +1,8 @@
 import React from "react";
 import reactLogo from "../assets/react.svg";
 //import viteLogo from "../../public/vite.svg";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link, NavLink } from "react-router-dom";
 
 function Home() {
   return (
@@ -22,18 +23,28 @@ function Home() {
                   💥CRUD - productos, clientes, proveedores, empleados - lo
                   basico - ✅ - añadir buscar -
                 </li>
-                <li>⏳CARDS - Productos - imagenes🔎 - categorias - buscar -</li>
-                <li>⏳CARRITO DE LA COMPRA - ventas (poner fecha) - envios - </li>
+                <li>
+                  ⏳CARDS - Productos - imagenes🔎 - categorias - buscar -
+                </li>
+                <li>
+                  ⏳CARRITO DE LA COMPRA - ventas (poner fecha) - envios -{" "}
+                </li>
                 <li>🔷VALIDACIONES-</li>
-                <li>🔷LOGIN - Jwt TOKEN🔎 - Usuarios - perfiles - investigar cookie de sesion-</li>
+                <li>
+                  🔷LOGIN - Jwt TOKEN🔎 - Usuarios - perfiles - Registro de Logs
+                  - investigar cookie de sesion-
+                </li>
                 <li>🔷FACTURAS - x email🔎 - generar PDF🔎 -</li>
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
                 <li>🔷NOTICIAS - </li>
                 <li>🔷PROMOCIONES - OFERTAS -</li>
                 <li>🔷...</li>
-                <li>🔷...</li>
-                <li>🔷...</li>
               </ul>
+              <h6>EN DESARROLLO...</h6>
+
+              <NavLink as={NavLink} to="/pdf">
+                <Button>PDF</Button>
+              </NavLink>
             </Col>
             <Col sm={4}>
               <div className="">
@@ -52,10 +63,22 @@ function Home() {
           </Row>
         </div>
       </Container>
-      <br /> 
+      <br />
       <h3>We will let you know when its done Bv</h3>
-      <br /> 
-      <footer style={{textAlign:'right', position:'absolute', bottom:'0', background:'dimgray', color:'white', width:'100%', padding:'5pt'}}>Created on 28/03/2023 at 11:54:26 ©By RichardPesantez @richis11® ✔</footer>
+      <br />
+      <footer
+        style={{
+          textAlign: "right",
+          position: "absolute",
+          bottom: "0",
+          background: "dimgray",
+          color: "white",
+          width: "100%",
+          padding: "5pt",
+        }}
+      >
+        Created on 28/03/2023 at 11:54:26 ©By RichardPesantez @richis11® ✔
+      </footer>
     </div>
   );
 }

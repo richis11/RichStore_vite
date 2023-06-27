@@ -25,6 +25,7 @@ export function CarritoContextProvider(props) {
         carrito, items,
         agregar_al_carrito,
         quitar_del_carrito,
+        SetItems,
         SetCarrito
 
       }}
