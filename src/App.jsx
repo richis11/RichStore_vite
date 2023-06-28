@@ -11,6 +11,7 @@ import TarjetasProductos from "./components/TarjetasProductos";
 import Carrito from "./components/Carrito";
 import Ventas from "./components/Ventas";
 import PDFDocument from "./components/PDFDocument";
+import Envios from "./components/Envios";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/tarjetas" element={<TarjetasProductos/>} />
         <Route path="/carrito" element={<Carrito />} />
         <Route path="/ventas" element={<Ventas />} />
+        <Route path="/envios" element={<Envios />} />
 
           {/* EN DESARROOLLO */}
           <Route path="/pdf" element={<PDFDocument />} />

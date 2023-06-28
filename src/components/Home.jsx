@@ -20,21 +20,21 @@ function Home() {
               <h6>REQUIREMENTS</h6>
               <ul>
                 <li>
-                  💥CRUD - productos, clientes, proveedores, empleados - lo
-                  basico - ✅ - añadir buscar -
+                  💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - lo
+                  basico ✅ - añadir buscar -
                 </li>
                 <li>
-                  ⏳CARDS - Productos - imagenes🔎 - categorias - buscar -
+                  ⏳CARDS - Productos✔ - imagenes🔎 - categorias - buscar -
                 </li>
                 <li>
-                  ⏳CARRITO DE LA COMPRA - ventas (poner fecha) - envios -{" "}
+                  ⏳CARRITO DE LA COMPRA - ventas✔ (poner fecha✔) - cantidad items -  envios✔
                 </li>
                 <li>🔷VALIDACIONES-</li>
                 <li>
                   🔷LOGIN - Jwt TOKEN🔎 - Usuarios - perfiles - Registro de Logs
-                  - investigar cookie de sesion-
+                  - investigar cookie de sesion🔎-
                 </li>
-                <li>🔷FACTURAS - x email🔎 - generar PDF🔎 -</li>
+                <li>⏳FACTURAS - x email🔎 - generar PDF✔ -</li>
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
                 <li>🔷NOTICIAS - </li>
                 <li>🔷PROMOCIONES - OFERTAS -</li>

@@ -52,7 +52,7 @@ function PDF_Factura({ venta, venta_detalles }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text>* THE RICH STORE * FACTURA RUC: 07099999990100</Text>
+          <Text>* THE RICH STORE *          FACTURA          RUC: 07099999990100</Text>
           <Text>_______________________________________________________</Text>
 
           <Text>Nº TRANSACCION: {venta.id_transaccion}</Text>
@@ -63,10 +63,13 @@ function PDF_Factura({ venta, venta_detalles }) {
             })}
           </Text>
           <Text>
-            ----------------------------------------------------------
+            -----------------------------------------------------------  DATOS DEL CLIENTE
           </Text>
           <Text>CLIENTE: {venta.nom_cliente}</Text>
+          <Text>Nº CÉDULA: {venta.cedula}</Text>
           <Text>DIRECCION: {venta.dir_cliente}</Text>
+          <Text>TELÉFONO: {venta.telefono}</Text>
+          <Text>EMAIL: {venta.email}</Text>
           <Text>___________________________________ LISTA DE ARTÍCULOS </Text>
           <Text>________________________________________________________</Text>
           <View style={styles.table}>

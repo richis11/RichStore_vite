@@ -63,10 +63,12 @@ function Ventas() {
               <tr>
                 <th>#</th>
                 <th>id_transaccion</th>
-                <th>fecha</th>
+                <th>Fecha</th>
                 <th>id_cliente</th>
                 <th>Nombres</th>
                 <th>Dirección</th>
+                {/* <th>Teléfono</th> */}
+                {/* <th>Email</th> */}
                 <th>Cant. Prods</th>
                 <th>Subtotal</th>
                 <th>Iva</th>
@@ -89,6 +91,8 @@ function Ventas() {
                   <td>{venta.id_cliente}</td>
                   <td>{venta.nom_cliente}</td>
                   <td>{venta.dir_cliente}</td>
+                  {/* <td>{venta.telefono}</td>
+                  <td>{venta.email}</td> */}
                   <td>{venta.cant_productos}</td>
                   <td>${venta.subtotal}</td>
                   <td>${venta.iva}</td>
@@ -173,6 +177,9 @@ function Ventas() {
                 <PDF_Factura venta={venta} venta_detalles={venta_detalles}/>
         </Modal.Body>
         <Modal.Footer>
+        <Button>
+            Enviar por correo @ ...prox...⚠
+          </Button>
           <Button variant="secondary" onClick={handleClose1}>
             Volver
           </Button>

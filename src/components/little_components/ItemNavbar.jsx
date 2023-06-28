@@ -40,7 +40,7 @@ const {items} = useContext(CarritoContext)
           </NavDropdown>
           <Nav.Link as={NavLink} to="/tarjetas">Tarjetas Productos⏳</Nav.Link>
           <Nav.Link as={NavLink} to="/ventas">Ventas</Nav.Link>
-          <Nav.Link as={NavLink} to="/envios">Envios⚠</Nav.Link>
+          <Nav.Link as={NavLink} to="/envios">Envios</Nav.Link>
           <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
         </Nav>
         

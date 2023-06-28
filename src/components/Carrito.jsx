@@ -1,17 +1,58 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Table, Button, ButtonGroup, InputGroup, Row, Col, Card, Modal, Form } from "react-bootstrap";
+import {
+  Table,
+  Button,
+  ButtonGroup,
+  InputGroup,
+  Row,
+  Col,
+  Card,
+  Modal,
+  Form,
+} from "react-bootstrap";
 import { CarritoContext } from "../context/CarritoContext";
 import cliente_service from "../services/cliente_service";
-import venta_service from '../services/venta_service'
-import venta_detalle_service from '../services/venta_detalle_service'
+import venta_service from "../services/venta_service";
+import venta_detalle_service from "../services/venta_detalle_service";
 import productExample from "../images/productExample2.png";
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4 } from "uuid";
+import envio_service from "../services/envio_service";
 
 function Carrito() {
-  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito } = useContext(CarritoContext);
-  const [venta, SetVenta] = useState({ id_transaccion:'',fecha:null, 
-  id_cliente:null,  nom_cliente:'', dir_cliente:'', 
-  cant_productos:0, subtotal: 0, iva: 0, descuento:0, total: 0 , tipo_pago:''});
+  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito } =
+    useContext(CarritoContext);
+  const [venta, SetVenta] = useState({
+    id_transaccion: "",
+    fecha: null,
+    id_cliente: null,
+    cedula: "",
+    nom_cliente: "",
+    dir_cliente: "",
+    telefono: "",
+    email: "",
+    cant_productos: 0,
+    subtotal: 0,
+    iva: 0,
+    descuento: 0,
+    total: 0,
+    tipo_pago: "",
+  });
+
+  const [envio, SetEnvio] = useState({
+    id_transaccion: "",
+    id_cliente: null,
+    cedula: "",
+    nom_cliente: "",
+    dir_cliente: "",
+    telefono: "",
+    cant_productos: 0,
+    total: 0,
+    fecha_facturación: null,
+    fecha_envio: null,
+    fecha_entrega: null,
+    estado: "",
+  });
+
   const [clientes, SetClientes] = useState([]);
   const [cliente, SetCliente] = useState({
     cedula: "",
@@ -31,11 +72,16 @@ function Carrito() {
     });
   };
   const vaciarCarrito = () => {
-    SetCarrito([])
-    SetItems(0)
-  }
+    SetCarrito([]);
+    SetItems(0);
+    vaciarCliente()
+    handleClose()
+  };
 
- 
+  const completar_compra =()=>{
+
+    vaciarCarrito()
+  }
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -44,7 +90,7 @@ function Carrito() {
   useEffect(() => {
     calcularVenta();
     getClientes();
-    crearVenta()
+    crearVenta();
   }, [items, cliente]);
 
   const calcularVenta = () => {
@@ -57,7 +103,14 @@ function Carrito() {
       iva = subtotal * 0.12;
       total = subtotal + iva;
     });
-    SetVenta({ ...venta, cant_productos: items, subtotal: subtotal, iva: iva, descuento:descuento, total: total });
+    SetVenta({
+      ...venta,
+      cant_productos: items,
+      subtotal: subtotal,
+      iva: iva,
+      descuento: descuento,
+      total: total,
+    });
   };
 
   const getClientes = async () => {
@@ -76,52 +129,75 @@ function Carrito() {
   };
 
   const seleccionarCliente = (id) => {
-    if (id != 0) {  
-      SetCliente(getCliente(id))
-
+    if (id != 0) {
+      SetCliente(getCliente(id));
     } else {
       vaciarCliente();
     }
   };
 
+  const crearVenta = () => {
+    if (cliente.nombres) {
+      let uuidTransaccion = uuidV4();
+      SetVenta({
+        ...venta,
+        id_transaccion: uuidTransaccion,
+        fecha: Date(),
+        id_cliente: cliente.id,
+        cedula: cliente.cedula,
+        nom_cliente: cliente.nombres,
+        dir_cliente: cliente.direccion,
+        telefono: cliente.telefono,
+        email: cliente.email,
+        tipo_pago: "PAGO DIRECTO💸",
+      });
 
-  const crearVenta = () =>{
-    if (cliente.nombres){
-      let uuidTransaccion = uuidV4()
-      SetVenta({ ...venta, id_transaccion:uuidTransaccion, fecha: Date(),
-      id_cliente:cliente.id,  nom_cliente:cliente.nombres, dir_cliente:cliente.direccion, 
-      tipo_pago:'PAGO DIRECTO💸'})
+      const carrito_actualizado = carrito.map((producto) => {
+        console.log(producto.nombre);
+        return { ...producto, id_transaccion: uuidTransaccion };
+      });
+      SetCarrito(carrito_actualizado);
 
-      const carrito_actualizado = carrito.map((producto)=>{
-        console.log(producto.nombre)
-        return{ ...producto, id_transaccion: uuidTransaccion }
+      SetEnvio({
+        ...envio,
+        id_transaccion: uuidTransaccion,
+        id_cliente: cliente.id,
+        cedula: cliente.cedula,
+        nom_cliente: cliente.nombres,
+        dir_cliente: cliente.direccion,
+        telefono: cliente.telefono,
+        cant_productos: items,
+        total: venta.total,
+        fecha_facturacion: Date(),
+        estado: "📃Facturado"
       })
-      SetCarrito(carrito_actualizado)
-    
-      console.log('UUID: '+uuidTransaccion)
-    }    
-    else
-    {
-      console.log('crearVenta dice: no existe cliente')
+
+
+
+      console.log("UUID: " + uuidTransaccion);
+    } else {
+      console.log("crearVenta dice: no existe cliente");
     }
-  }
-  
+  };
+
   const handlePagar = () => {
     if (cliente.nombres !== "") {
       console.log("PAGAR DICE: el cliente seleccionado es :");
       console.log(cliente);
-      console.log(carrito)
-      
-      venta_service.crearVenta(venta)
+      console.log(carrito);
 
-    carrito.map((producto)=>{
-      venta_detalle_service.crearVenta_detalle(producto)
-      
-    })
+      venta_service.crearVenta(venta);
 
-    }
-    else{
-      alert('Debes seleccionar el cliente animal!')
+      carrito.map((producto) => {
+        venta_detalle_service.crearVenta_detalle(producto);
+      });
+
+      envio_service.crearEnvio(envio);
+
+      completar_compra()
+
+    } else {
+      alert("Debes seleccionar el cliente animal!");
     }
   };
 
@@ -129,9 +205,18 @@ function Carrito() {
     <>
       <div className="container mt-3">
         <Row>
-        <Col>
-            <Button style={{ textAlign: "left" }} variant="danger" 
-            onClick={vaciarCarrito}>Vaciar el carrito</Button>
+          <Col>
+          {items!=0 ? 
+          <Button
+          style={{ textAlign: "left" }}
+          variant="outline-dark"
+          onClick={vaciarCarrito}
+        >
+          Vaciar el carrito
+        </Button>
+        :''
+         }
+            
           </Col>
           <Col>
             <h1 style={{ textAlign: "right" }}>Carrito🛒</h1>
@@ -271,11 +356,11 @@ function Carrito() {
             <option key={0} value={0}>
               Seleccionar método de pago
             </option>
-            <option key={1} value={'🅿 PayPal'}>
-             🅿 PayPal 
+            <option key={1} value={"🅿 PayPal"}>
+              🅿 PayPal
             </option>
-            <option key={2} value={'💳 Tarjeta de crédito o débito '}>
-            💳 Tarjeta de crédito o débito 
+            <option key={2} value={"💳 Tarjeta de crédito o débito "}>
+              💳 Tarjeta de crédito o débito
             </option>
           </Form.Select>
           <br />
