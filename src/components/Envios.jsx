@@ -169,7 +169,7 @@ function Envios() {
                         variant="primary"
                         onClick={() => enviar_pedido(envio)}
                       >
-                        Enviar<i class="bi bi-send"></i>
+                        Enviar pedido<i class="bi bi-send"></i>
                       </Button>
                     )}
                   </td>

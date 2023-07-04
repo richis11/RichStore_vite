@@ -12,12 +12,12 @@ function Home() {
       <h3>💰💳🛒🚛🎮</h3>
       <h3>Here you will be able to sell wathever you want, and that's cool!</h3>
       <h5>but now, we're still building this app... please wait...</h5>
-      <br /> <br />
+      <br /> 
       <Container className="">
         <div style={{ textAlign: "left" }}>
           <Row>
             <Col>
-              <h6>REQUIREMENTS</h6>
+              <h6>SHOP REQUIREMENTS</h6>
               <ul>
                 <li>
                   💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - lo
@@ -27,18 +27,24 @@ function Home() {
                   ⏳CARDS - Productos✔ - imagenes🔎 - categorias - buscar -
                 </li>
                 <li>
-                  ⏳CARRITO DE LA COMPRA - ventas✔ (poner fecha✔) - cantidad items -  envios✔
-                </li>
-                <li>🔷VALIDACIONES-</li>
-                <li>
-                  🔷LOGIN - Jwt TOKEN🔎 - Usuarios - perfiles - Registro de Logs
-                  - investigar cookie de sesion🔎-
+                  ⏳CARRITO DE LA COMPRA - ventas✔ (poner fecha✔) - cantidad items✔ - manejar stock -  envios✔
                 </li>
                 <li>⏳FACTURAS - x email🔎 - generar PDF✔ -</li>
+                <li>🔷VALIDACIONES - </li>
+                <li>
+                  🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
+                  - investigar cookie de sesion🔎-
+                </li>
+                <li>🔷SISTEMA DE PAGOS - investigar Paypal y Tarjetas de crédito🔎 - CONTROL DE CONCURRENCIA -</li>
+                
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
-                <li>🔷NOTICIAS - </li>
-                <li>🔷PROMOCIONES - OFERTAS -</li>
-                <li>🔷...</li>
+                <li>🔷NOTICIAS - PROMOCIONES - OFERTAS -</li>
+                <li>🔷RECLAMOS</li>
+              </ul>
+              <h6>INTELIGENCIA ARTIFICIAL </h6>
+              <ul>
+                <li>🔷CHATBOT💬</li>
+                {/* <li>🔷🟢RECONOCIMIENTO DE IMAGENES</li> */}
               </ul>
               <h6>EN DESARROLLO...</h6>
 
@@ -69,7 +75,7 @@ function Home() {
       <footer
         style={{
           textAlign: "right",
-          position: "absolute",
+          position: "relative",
           bottom: "0",
           background: "dimgray",
           color: "white",

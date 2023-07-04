@@ -19,7 +19,7 @@ import { v4 as uuidV4 } from "uuid";
 import envio_service from "../services/envio_service";
 
 function Carrito() {
-  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito } =
+  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito, cantidad_item } =
     useContext(CarritoContext);
   const [venta, SetVenta] = useState({
     id_transaccion: "",
@@ -99,7 +99,7 @@ function Carrito() {
     let total = 0;
     let descuento = 0;
     carrito.map((producto) => {
-      subtotal += producto.precio;
+      subtotal += (producto.precio*producto.cantidad);
       iva = subtotal * 0.12;
       total = subtotal + iva;
     });
@@ -236,7 +236,7 @@ function Carrito() {
                 </tr>
               </thead>
               <tbody>
-                {carrito.map((producto) => (
+                {carrito.map((producto, indice) => (
                   <tr key={producto.id_producto}>
                     <td>{producto.nombre}</td>
                     <td>{producto.categoria}</td>
@@ -245,17 +245,18 @@ function Carrito() {
                     <td>
                       <InputGroup aria-label="Basic example">
                         <ButtonGroup>
-                          <Button variant="secondary">-</Button>
+                          <Button variant="secondary" onClick={()=>cantidad_item(indice,'-')}>-</Button>
                           <InputGroup.Text>{producto.cantidad}</InputGroup.Text>
-                          <Button variant="secondary">+</Button>
+                          <Button variant="secondary" onClick={()=>cantidad_item(indice,'+')}>+</Button>
                         </ButtonGroup>
                       </InputGroup>
                     </td>
 
+
                     <td>
                       <Button
                         variant="outline-dark"
-                        onClick={() => quitar_del_carrito(producto.id_producto)}
+                        onClick={() => quitar_del_carrito(producto)}
                       >
                         Quitar
                       </Button>

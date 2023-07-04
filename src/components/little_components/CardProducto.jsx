@@ -27,7 +27,7 @@ function CardProducto({ producto }) {
       precio: producto.precio_ven,
       cantidad: 1,
     });
-  }, {});
+  }, []);
 
   return (
     <Card style={{ width: "18rem", margin: "10px" }}>
