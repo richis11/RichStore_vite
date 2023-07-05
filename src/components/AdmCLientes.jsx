@@ -9,8 +9,8 @@ import {
   Form,
 } from "react-bootstrap";
 import cliente_service from "../services/cliente_service";
-import Swal from 'sweetalert2'
-import {toast, ToastContainer} from 'react-toastify'
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function AdmCLientes() {
@@ -45,7 +45,7 @@ function AdmCLientes() {
   };
 
   const getClientes = async () => {
-    let lista_clientes=await cliente_service.getClientes()
+    let lista_clientes = await cliente_service.getClientes();
     SetClientes(lista_clientes.reverse());
   };
 
@@ -80,8 +80,28 @@ function AdmCLientes() {
   };
 
   const handleEliminar = async (id) => {
-    await eliminarCliente(id);
-    getClientes();
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarCliente(id);
+        getClientes();
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El cliente ha sido eliminado con éxito!",
+          icon: "success",
+          timer: "2000",
+          showConfirmButton: false,
+        });
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -94,17 +114,19 @@ function AdmCLientes() {
       cliente.email === "" ||
       cliente.direccion === ""
     ) {
-      toast.warn("Todos Los campos son obligatorios",{ autoClose: 1500 });
+      toast.warn("Todos Los campos son obligatorios", { autoClose: 1500 });
     } else {
       if (!editar) {
-        //CREAR PRODUCTO
+        //CREAR CLIENTE
         await crearCliente(cliente);
         getClientes();
-        Swal.fire({title:'CLIENTE CREADO EXITOSAMENTE', icon:'success'})
+        Swal.fire({ title: "CLIENTE AGREGADO",
+        text: "El  cliente ha sido agregado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       } else {
-        // EDITAR PRODUCTO
+        // EDITAR CLIENTE
         await editarCliente(cliente.id, cliente);
         getClientes();
+        Swal.fire({ title: "CLIENTE MODIFICADO", text: "El  cliente ha sido editado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       }
       //ocultar modal y vaciar cliente
       handleClose();
@@ -127,44 +149,48 @@ function AdmCLientes() {
         </Row>
         <Row>
           <hr />
-          {clientes.length!==0 ? <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Cédula</th>
-                <th>Nombres</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Dirección</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientes.map((cliente) => (
-                <tr key={cliente.id}>
-                  <td>{cliente.id}</td>
-                  <td>{cliente.cedula}</td>
-                  <td>{cliente.nombres}</td>
-                  <td>{cliente.telefono}</td>
-                  <td>{cliente.email}</td>
-                  <td>{cliente.direccion}</td>
-                  <td>
-                    <Button
-                      variant="primary"
-                      onClick={() => handleEditar(cliente.id)}
-                    >
-                      <i className="bi bi-pencil"></i>
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleEliminar(cliente.id)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </Button>
-                  </td>
+          {clientes.length !== 0 ? (
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cédula</th>
+                  <th>Nombres</th>
+                  <th>Teléfono</th>
+                  <th>Email</th>
+                  <th>Dirección</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>:<h1>No hay clientes para mostrar.</h1>}
+              </thead>
+              <tbody>
+                {clientes.map((cliente) => (
+                  <tr key={cliente.id}>
+                    <td>{cliente.id}</td>
+                    <td>{cliente.cedula}</td>
+                    <td>{cliente.nombres}</td>
+                    <td>{cliente.telefono}</td>
+                    <td>{cliente.email}</td>
+                    <td>{cliente.direccion}</td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleEditar(cliente.id)}
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleEliminar(cliente.id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <h1>No hay clientes para mostrar.</h1>
+          )}
         </Row>
       </Container>
 
@@ -188,28 +214,31 @@ function AdmCLientes() {
 
             <Form.Label>Nombres</Form.Label>
             <Form.Control
-            name="nombres"
-            onChange={handleChange}
-            value={cliente.nombres}
+              name="nombres"
+              onChange={handleChange}
+              value={cliente.nombres}
             ></Form.Control>
 
             <Form.Label>#Teléfono</Form.Label>
             <Form.Control
-            name="telefono"
-            onChange={handleChange}
-            value={cliente.telefono}></Form.Control>
+              name="telefono"
+              onChange={handleChange}
+              value={cliente.telefono}
+            ></Form.Control>
 
             <Form.Label>@Email</Form.Label>
             <Form.Control
-            name="email"
-            onChange={handleChange}
-            value={cliente.email}></Form.Control>
+              name="email"
+              onChange={handleChange}
+              value={cliente.email}
+            ></Form.Control>
 
             <Form.Label>Dirección</Form.Label>
             <Form.Control
-            name="direccion"
-            onChange={handleChange}
-            value={cliente.direccion}></Form.Control>
+              name="direccion"
+              onChange={handleChange}
+              value={cliente.direccion}
+            ></Form.Control>
           </Modal.Body>
 
           <Modal.Footer>
@@ -222,8 +251,7 @@ function AdmCLientes() {
           </Modal.Footer>
         </Modal>
       </div>
-     <ToastContainer/>
-    
+      <ToastContainer />
     </>
   );
 }

@@ -11,6 +11,7 @@ import {
 import empleado_service from "../services/empleado_service";
 import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 function AdmEmpleados() {
   const [showModal, setShowModal] = useState(false);
@@ -87,8 +88,28 @@ function AdmEmpleados() {
   };
 
   const handleEliminar = async (id) => {
-    await eliminarEmpleado(id);
-    getEmpleados();
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarEmpleado(id);
+        getEmpleados();
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El empleado ha sido eliminado con éxito!",
+          icon: "success",
+          timer: "2000",
+          showConfirmButton: false,
+        });
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -105,13 +126,17 @@ function AdmEmpleados() {
       toast.warn("Todos Los campos son obligatorios",{autoClose:1500});
     } else {
       if (!editar) {
-        //CREAR PRODUCTO
+        //CREAR EMPLEADO
         await crearEmpleado(empleado);
         getEmpleados();
+        Swal.fire({ title: "EMPLEADO AGREGADO",
+        text: "El  empleado ha sido agregado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       } else {
-        // EDITAR PRODUCTO
+        // EDITAR EMPLEADO
         await editarEmpleado(empleado.id, empleado);
         getEmpleados();
+        Swal.fire({ title: "EMPLEADO MODIFICADO ",
+        text: "El  empleado ha sido editado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       }
       //ocultar modal y vaciar empleado
       handleClose();

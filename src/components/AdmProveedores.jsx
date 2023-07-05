@@ -13,6 +13,8 @@ import proveedor_service from "../services/proveedor_service";
 import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 
+import Swal from "sweetalert2";
+
 function AdmProveedores() {
   const [showModal, setShowModal] = useState(false);
   const [editar, SetEditar] = useState(false);
@@ -82,8 +84,28 @@ function AdmProveedores() {
   };
 
   const handleEliminar = async (id) => {
-    await eliminarProveedor(id);
-    getProveedores();
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarProveedor(id);
+        getProveedores();
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El proveedor ha sido eliminado con éxito!",
+          icon: "success",
+          timer: "2000",
+          showConfirmButton: false,
+        });
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -100,13 +122,17 @@ function AdmProveedores() {
       toast.warn("Todos Los campos son obligatorios",{autoClose:1500});
     } else {
       if (!editar) {
-        //CREAR PRODUCTO
+        //CREAR PROVEEDOR
         await crearProveedor(proveedor);
         getProveedores();
+        Swal.fire({ title: "PROVEEDOR AGREGADO",
+        text: "El  proveedor ha sido agregado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       } else {
-        // EDITAR PRODUCTO
+        // EDITAR PROVEEDOR
         await editarProveedor(proveedor.id, proveedor);
         getProveedores();
+        Swal.fire({ title: "PROVEEDOR MODIFICADO",
+        text: "El  proveedor ha sido editado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
       }
       //ocultar modal y vaciar proveedor
       handleClose();
