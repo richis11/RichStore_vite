@@ -9,6 +9,8 @@ import {
   Form,
 } from "react-bootstrap";
 import empleado_service from "../services/empleado_service";
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function AdmEmpleados() {
   const [showModal, setShowModal] = useState(false);
@@ -100,7 +102,7 @@ function AdmEmpleados() {
       empleado.direccion === "" ||
       empleado.estado === ""
     ) {
-      alert("Todos Los campos son obligatorios");
+      toast.warn("Todos Los campos son obligatorios",{autoClose:1500});
     } else {
       if (!editar) {
         //CREAR PRODUCTO
@@ -266,6 +268,8 @@ function AdmEmpleados() {
           </Modal.Footer>
         </Modal>
       </div>
+     <ToastContainer/>
+
     </>
   );
 }

@@ -10,6 +10,7 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
+import Swal from 'sweetalert2'
 import { CarritoContext } from "../context/CarritoContext";
 import cliente_service from "../services/cliente_service";
 import venta_service from "../services/venta_service";
@@ -18,6 +19,10 @@ import productExample from "../images/productExample2.png";
 import { v4 as uuidV4 } from "uuid";
 import envio_service from "../services/envio_service";
 
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
+//____________________________________________________________________________________
 function Carrito() {
   const { items, SetItems, carrito, SetCarrito, quitar_del_carrito, cantidad_item } =
     useContext(CarritoContext);
@@ -79,7 +84,11 @@ function Carrito() {
   };
 
   const completar_compra =()=>{
+    const nombres = cliente.nombres;
+    const palabras = nombres.split(' '); // Dividir el string en palabras utilizando el espacio como separador
+    const primeraPalabra = palabras[0]; // Obtener el primer elemento del arreglo de palabras
 
+    Swal.fire({title:'🤑COMPRA EXITOSA🤑 ',html:`<p>La compra se realizó con éxito ${primeraPalabra}, en breves te llegará un correo con la factura de tu compra, ahora solo te queda esperar el envío, si en una semana no ha llegado comunícate con el centro de ayuda y soporte para un reembolso.<p/> <h4>Gracias por comprar en RichStore :D<h4/> <h3>Te queremos mucho ❤<h3/>`, icon:'success'})
     vaciarCarrito()
   }
 
@@ -197,7 +206,7 @@ function Carrito() {
       completar_compra()
 
     } else {
-      alert("Debes seleccionar el cliente animal!");
+      toast.info("Debes seleccionar el cliente!",{autoClose:1500});
     }
   };
 
@@ -223,7 +232,7 @@ function Carrito() {
           </Col>
         </Row>
         <hr />
-        <Row>
+        {items ? <Row>
           <Col>
             <Table>
               <thead>
@@ -301,7 +310,7 @@ function Carrito() {
               <Row>
                 <strong style={{ width: "50%" }}>TOTAL: </strong>
                 <span style={{ textAlign: "right", width: "50%" }}>
-                  <strong>$ {venta.total}</strong>
+                  <strong>$ {venta.total.toFixed(2)}</strong>
                 </span>
               </Row>
               <br />
@@ -311,7 +320,7 @@ function Carrito() {
                   if (items > 0) {
                     handleShow();
                   } else {
-                    alert("El carrito esta vacio");
+                    toast.info("El carrito esta vacio");
                   }
                 }}
               >
@@ -319,7 +328,7 @@ function Carrito() {
               </Button>
             </Card>
           </Col>
-        </Row>
+        </Row>:<><h1>El carrito está vacio</h1> <h3>Agrega productos y aparecerán aqui :D</h3></>}
       </div>
 
       {/* ------------------------------------------------------------  MODAL PAGAR  */}
@@ -380,6 +389,8 @@ function Carrito() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <ToastContainer/>
     </>
   );
 }

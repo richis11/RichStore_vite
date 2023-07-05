@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 export const CarritoContext = createContext();
 
@@ -17,7 +19,7 @@ export function CarritoContextProvider(props) {
           const item_modif = { ...product };
           item_modif.cantidad = item_modif.cantidad + 1;
           productoEnCarrito = true;
-          console.log("producto sumado");
+          toast.success("Producto sumado",{autoClose:1500});
           return item_modif;
         }
         return product;
@@ -25,7 +27,7 @@ export function CarritoContextProvider(props) {
 
       if (!productoEnCarrito) {
         nuevoCarrito.push(producto);
-        console.log("producto agregado 2nd if");
+        toast.success("Producto agregado",{autoClose:1500});
       }
 
       SetCarrito(nuevoCarrito);
@@ -33,7 +35,7 @@ export function CarritoContextProvider(props) {
     } else {
       SetCarrito([...carrito, producto]);
       SetItems(carrito.length + 1);
-      console.log("1er producto agregado");
+      toast.success("Producto agregado",{autoClose:1500});
     }
   };
 
@@ -63,7 +65,7 @@ export function CarritoContextProvider(props) {
         item_modif.cantidad = item_modif.cantidad - 1;
         contar_items();
       } else {
-        alert("No se puede disminuir mas la cantidad, el minimo es 1");
+        toast.info("No se puede disminuir mas la cantidad, el minimo es 1", {autoClose:1500});
       }
     }
     const carrito_actualizado = carrito.map((objeto, index) =>

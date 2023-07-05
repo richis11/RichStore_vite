@@ -45,7 +45,7 @@ const {items} = useContext(CarritoContext)
         </Nav>
         
         <Navbar.Collapse className="justify-content-end ms-3">
-        <InputGroup>
+        {/* <InputGroup>
           <Form.Control
             type="text"
             placeholder="Buscador proximamente... ⚠"
@@ -53,7 +53,7 @@ const {items} = useContext(CarritoContext)
             aria-describedby="btnGroupAddon"
           />
           <Button variant='secondary'><i class="bi bi-search"></i></Button>
-        </InputGroup>
+        </InputGroup> */}
 
         <div className="me-3 ms-3">
           <a href="https://vitejs.dev" target="_blank">

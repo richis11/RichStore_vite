@@ -10,6 +10,9 @@ import {
 } from "react-bootstrap";
 import proveedor_service from "../services/proveedor_service";
 
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
 function AdmProveedores() {
   const [showModal, setShowModal] = useState(false);
   const [editar, SetEditar] = useState(false);
@@ -94,7 +97,7 @@ function AdmProveedores() {
       proveedor.direccion === "" ||
       proveedor.estado === ""
     ) {
-      alert("Todos Los campos son obligatorios");
+      toast.warn("Todos Los campos son obligatorios",{autoClose:1500});
     } else {
       if (!editar) {
         //CREAR PRODUCTO
@@ -233,6 +236,7 @@ function AdmProveedores() {
           </Modal.Footer>
         </Modal>
       </div>
+      <ToastContainer/>
     </>
   );
 }

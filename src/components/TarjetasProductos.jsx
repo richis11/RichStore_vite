@@ -4,6 +4,9 @@ import producto_service from "../services/producto_service";
 import CardProducto from "./little_components/CardProducto";
 import { Row, Col} from "react-bootstrap";
 
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
 function TarjetasProductos() {
   const [productos, SetProductos] = useState([]);
 
@@ -24,6 +27,8 @@ function TarjetasProductos() {
             <CardProducto key={producto.id} producto={producto} />
         ))}
       </div>
+
+      <ToastContainer/>
     </>
   );
 }

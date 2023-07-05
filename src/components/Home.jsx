@@ -20,30 +20,31 @@ function Home() {
               <h6>SHOP REQUIREMENTS</h6>
               <ul>
                 <li>
-                  💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - lo
-                  basico ✅ - añadir buscar -
+                  💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - añadir buscar🤑<strong>Jueves</strong>
                 </li>
                 <li>
-                  ⏳CARDS - Productos✔ - imagenes🔎 - categorias - buscar -
+                  ⏳CARDS - Productos✔ - imagenes🔎 - categorias🤑<strong>Miercoles</strong> - buscar🤑<strong>Jueves</strong>
                 </li>
                 <li>
-                  ⏳CARRITO DE LA COMPRA - ventas✔ (poner fecha✔) - cantidad items✔ - manejar stock -  envios✔
+                  ⏳CARRITO DE LA COMPRA✔ - cantidad items✔ - manejar stock🤑<strong>Martes</strong> - ventas✔ -  envios✔
                 </li>
-                <li>⏳FACTURAS - x email🔎 - generar PDF✔ -</li>
+                <li>⏳FACTURAS - x email🔎<strong>SabaDomingo</strong> - generar PDF✔ - </li>
+                <li>
+                    <strong>SEMANA2</strong> -🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
+                  - investigar cookie de sesion🔎- local storage -
+                </li>
                 <li>🔷VALIDACIONES - </li>
-                <li>
-                  🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
-                  - investigar cookie de sesion🔎-
-                </li>
-                <li>🔷SISTEMA DE PAGOS - investigar Paypal y Tarjetas de crédito🔎 - CONTROL DE CONCURRENCIA -</li>
+                
+                <li>🔷SISTEMA DE PAGOS - investigar Paypal y Tarjetas de crédito🔎 - CONTROL DE CONCURRENCIA</li>
                 
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
                 <li>🔷NOTICIAS - PROMOCIONES - OFERTAS -</li>
                 <li>🔷RECLAMOS</li>
+                <li>🔷VISUAL - Notificaciones y alertas cheveres⭐</li>
               </ul>
               <h6>INTELIGENCIA ARTIFICIAL </h6>
               <ul>
-                <li>🔷CHATBOT💬</li>
+                <li> <strong>SEMANA3</strong> - 🔷CHATBOT💬</li>
                 {/* <li>🔷🟢RECONOCIMIENTO DE IMAGENES</li> */}
               </ul>
               <h6>EN DESARROLLO...</h6>

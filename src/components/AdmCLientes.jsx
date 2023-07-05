@@ -9,6 +9,9 @@ import {
   Form,
 } from "react-bootstrap";
 import cliente_service from "../services/cliente_service";
+import Swal from 'sweetalert2'
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function AdmCLientes() {
   const [showModal, setShowModal] = useState(false);
@@ -91,12 +94,13 @@ function AdmCLientes() {
       cliente.email === "" ||
       cliente.direccion === ""
     ) {
-      alert("Todos Los campos son obligatorios");
+      toast.warn("Todos Los campos son obligatorios",{ autoClose: 1500 });
     } else {
       if (!editar) {
         //CREAR PRODUCTO
         await crearCliente(cliente);
         getClientes();
+        Swal.fire({title:'CLIENTE CREADO EXITOSAMENTE', icon:'success'})
       } else {
         // EDITAR PRODUCTO
         await editarCliente(cliente.id, cliente);
@@ -171,7 +175,7 @@ function AdmCLientes() {
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Insertar Clientes</Modal.Title>
+            <Modal.Title>Insertar Cliente</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -218,6 +222,8 @@ function AdmCLientes() {
           </Modal.Footer>
         </Modal>
       </div>
+     <ToastContainer/>
+    
     </>
   );
 }

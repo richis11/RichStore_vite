@@ -1,6 +1,9 @@
 import { React, useState, useEffect } from "react";
 import {Table, Container, Row, Col, Button, Modal, Form} from "react-bootstrap";
 import producto_service from "../services/producto_service";
+import Swal from 'sweetalert2'
+import {toast, ToastContainer} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function AdmProductos() {
   const [showModal, setShowModal] = useState(false);
@@ -71,8 +74,28 @@ function AdmProductos() {
   };
 
   const handleEliminar = async (id) => {
-    await eliminarProducto(id);
-    getProducts();
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await eliminarProducto(id);
+        getProducts();
+         Swal.fire({
+      title: 'Eliminado!',
+      text: "El producto ha sido eliminado con éxito!",
+      icon: 'success',
+      timer:'2000',
+      showConfirmButton: false
+    })
+      }
+    })
   };
 
   const handleSubmit = async (e) => {
@@ -86,16 +109,19 @@ function AdmProductos() {
       producto.precio_prov === 0 ||
       producto.stock === 0
     ) {
-      alert("Todos Los campos son obligatorios");
+      toast.warn("Todos Los campos son obligatorios",{ autoClose: 1500 });
     } else {
       if (!editar) {
         //CREAR PRODUCTO
         await crearProducto(producto);
         getProducts();
+        Swal.fire({title:'PRODUCTO AGREGADO',text:'El producto ha sido agregado con éxito!', icon:'success', showConfirmButton: false, timer:'2000'})
       } else {
         // EDITAR PRODUCTO
         await editarProducto(producto.id, producto);
         getProducts();
+        Swal.fire({title:'PRODUCTO MODIFICADO',text:'El producto ha sido editado con éxito!', icon:'success', showConfirmButton: false, timer:'2000'})
+
       }
       //ocultar modal y vaciar producto
       handleClose();
@@ -171,7 +197,7 @@ function AdmProductos() {
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Insertar Productos</Modal.Title>
+            <Modal.Title>{!editar ? "Insertar" : "Modificar"} Producto</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -228,6 +254,7 @@ function AdmProductos() {
           </Modal.Footer>
         </Modal>
       </div>
+      <ToastContainer />
     </>
   );
 }
