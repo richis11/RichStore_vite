@@ -143,9 +143,9 @@ function AdmProductos() {
             </Button>
           </Col>
         </Row>
-        <Row>
+         <Row>
           <hr />
-          <Table>
+          {productos.length!==0 ?<Table>
             <thead>
               <tr>
                 <th>#</th>
@@ -186,7 +186,7 @@ function AdmProductos() {
               ))}
               
             </tbody>
-          </Table>
+          </Table>:<h1>No hay productos para mostrar.</h1>}
         </Row>
       </Container>
 

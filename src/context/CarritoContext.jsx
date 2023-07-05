@@ -45,6 +45,7 @@ export function CarritoContextProvider(props) {
       carrito.filter((product) => producto.id_producto !== product.id_producto)
     ); 
     console.log(carrito);
+    toast.error(`${producto.nombre} se ha eliminado del Carrito.`,{autoClose:3000});
   };
 
   const contar_items = () => {

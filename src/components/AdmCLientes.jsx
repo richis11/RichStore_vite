@@ -127,7 +127,7 @@ function AdmCLientes() {
         </Row>
         <Row>
           <hr />
-          <Table>
+          {clientes.length!==0 ? <Table>
             <thead>
               <tr>
                 <th>#</th>
@@ -164,7 +164,7 @@ function AdmCLientes() {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table>:<h1>No hay clientes para mostrar.</h1>}
         </Row>
       </Container>
 

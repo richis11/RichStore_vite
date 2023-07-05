@@ -91,7 +91,7 @@ function Envios() {
         </Row>
         <Row>
           <hr />
-          <Table>
+          {envios.length!==0? <Table>
             <thead>
               <tr>
                 <th>#</th>
@@ -177,7 +177,7 @@ function Envios() {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table>:<h1>No hay envios para mostrar.</h1>}
         </Row>
       </Container>
 

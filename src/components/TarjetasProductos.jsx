@@ -22,11 +22,12 @@ function TarjetasProductos() {
   return (
     <>
       <h1>Productos disponibles</h1>
-      <div className="" style={{display:'flex',flexWrap:'wrap'}}>
+      <hr />
+      {productos.length!==0? <div className="" style={{display:'flex',flexWrap:'wrap'}}>
         {productos.map((producto) => (
             <CardProducto key={producto.id} producto={producto} />
         ))}
-      </div>
+      </div>:<h1>No hay productos disponibles.</h1>}
 
       <ToastContainer/>
     </>

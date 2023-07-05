@@ -134,7 +134,7 @@ function AdmEmpleados() {
         </Row>
         <Row>
           <hr />
-          <Table>
+          {empleados.length!==0 ? <Table>
             <thead>
               <tr>
                 <th>#</th>
@@ -179,7 +179,7 @@ function AdmEmpleados() {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table>:<h1>No hay empleados para mostrar.</h1>}
         </Row>
       </Container>
 

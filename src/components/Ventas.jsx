@@ -58,7 +58,7 @@ function Ventas() {
         </Row>
         <Row>
           <hr />
-          <Table>
+          {ventas.length!==0? <Table>
             <thead>
               <tr>
                 <th>#</th>
@@ -110,7 +110,7 @@ function Ventas() {
                 </tr>
               ))}
             </tbody>
-          </Table>
+          </Table>:<h1>No hay ventas para mostrar.</h1>}
         </Row>
       </Container>
 
