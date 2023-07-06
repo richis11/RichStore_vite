@@ -40,7 +40,7 @@ function Home() {
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
                 <li>🔷NOTICIAS - PROMOCIONES - OFERTAS -</li>
                 <li>🔷RECLAMOS</li>
-                <li>🔷VISUAL - Notificaciones y alertas cheveres⭐</li>
+                <li>💥VISUAL - Notificaciones y alertas cheveres✔</li>
               </ul>
               <h6>INTELIGENCIA ARTIFICIAL </h6>
               <ul>

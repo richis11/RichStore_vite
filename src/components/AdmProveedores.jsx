@@ -171,7 +171,7 @@ function AdmProveedores() {
               {proveedores.map((proveedor) => (
                 <tr key={proveedor.id}>
                   <td>{proveedor.id}</td>
-                  <td>{proveedor.cedula}</td>
+                  <td>{proveedor.ruc}</td>
                   <td>{proveedor.nombres}</td>
                   <td>{proveedor.telefono}</td>
                   <td>{proveedor.email}</td>
