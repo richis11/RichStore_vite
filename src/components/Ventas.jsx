@@ -4,6 +4,9 @@ import venta_detalle_service from "../services/venta_detalle_service";
 import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
 import PDF_Factura from "./PDF_Factura";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function Ventas() {
   const [ventas, SetVentas] = useState([]);
   const [venta, SetVenta] = useState([]);
@@ -37,10 +40,14 @@ function Ventas() {
     handleShow();
   };
 
-  const generar_factura_pdf = (ventas, venta_detalles) =>{
+  const generar_factura_pdf = () =>{
 
     handleShow1();
   }
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
 
   return (
     <>

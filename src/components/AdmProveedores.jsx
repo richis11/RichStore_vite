@@ -15,6 +15,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Swal from "sweetalert2";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function AdmProveedores() {
   const [showModal, setShowModal] = useState(false);
   const [editar, SetEditar] = useState(false);
@@ -138,7 +141,11 @@ function AdmProveedores() {
       handleClose();
     }
   };
-//-------------------------------------------------------------------HTML
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
+
   return (
     <>
       <Container className="mt-3">
@@ -198,14 +205,14 @@ function AdmProveedores() {
         </Row>
       </Container>
 
-      {/* MODAL INSERTAR PROVEEDORES ---------------------- */}
+      {/* MODAL INSERTAR PROVEEDORES ---------------------------------------------- */}
       <div
         className="modal show"
         style={{ display: "block", position: "initial" }}
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Insertar Proveedores</Modal.Title>
+            <Modal.Title>{!editar ? "Insertar" : "Modificar"} Proveedores</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

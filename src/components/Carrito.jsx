@@ -23,6 +23,8 @@ import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 
 //____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function Carrito() {
   const { items, SetItems, carrito, SetCarrito, quitar_del_carrito, cantidad_item } =
     useContext(CarritoContext);
@@ -209,6 +211,10 @@ function Carrito() {
       toast.info("Debes seleccionar el cliente!",{autoClose:1500});
     }
   };
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
 
   return (
     <>

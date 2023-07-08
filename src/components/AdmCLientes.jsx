@@ -13,6 +13,9 @@ import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function AdmCLientes() {
   const [showModal, setShowModal] = useState(false);
   const [editar, SetEditar] = useState(false);
@@ -133,6 +136,10 @@ function AdmCLientes() {
     }
   };
 
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
+
   return (
     <>
       <Container className="mt-3">
@@ -194,14 +201,14 @@ function AdmCLientes() {
         </Row>
       </Container>
 
-      {/* MODAL INSERTAR CLIENTES ---------------------- */}
+      {/* MODAL INSERTAR CLIENTES ------------------------------------------------- */}
       <div
         className="modal show"
         style={{ display: "block", position: "initial" }}
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Insertar Cliente</Modal.Title>
+            <Modal.Title>{!editar ? "Insertar" : "Modificar"} Cliente</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

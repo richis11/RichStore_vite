@@ -1,14 +1,31 @@
 import { React, useState, useEffect } from "react";
-import {Table, Container, Row, Col, Button, Modal, Form} from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Form,
+  InputGroup,
+  ButtonGroup,
+} from "react-bootstrap";
 import producto_service from "../services/producto_service";
-import Swal from 'sweetalert2'
-import {toast, ToastContainer} from 'react-toastify'
+import categoria_service from "../services/categoria_service";
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
 
 function AdmProductos() {
   const [showModal, setShowModal] = useState(false);
+  const [showModalCategorias, setShowModalCategorias] = useState(false);
   const [editar, SetEditar] = useState(false);
+  const [editarCat, SetEditarCat] = useState(false);
   const [productos, SetProductos] = useState([]);
+  const [categorias, SetCategorias] = useState([]);
   const [producto, SetProducto] = useState({
     nombre: "",
     categoria: "",
@@ -17,9 +34,13 @@ function AdmProductos() {
     precio_prov: 0,
     stock: 0,
   });
+  const [categoria, SetCategoria] = useState({
+    nombre: "",
+  });
 
   useEffect(() => {
     getProducts();
+    getCategorias();
   }, []);
 
   const vaciarEstadoProducto = () => {
@@ -39,7 +60,7 @@ function AdmProductos() {
   };
 
   const getProducts = async () => {
-    let lista_productos=await producto_service.getProductos()
+    let lista_productos = await producto_service.getProductos();
     SetProductos(lista_productos.reverse());
   };
 
@@ -50,17 +71,48 @@ function AdmProductos() {
   const editarProducto = async (id, producto) => {
     await producto_service.editarProducto(id, producto);
   };
-  
+
   const eliminarProducto = async (id) => {
     await producto_service.eliminarProducto(id);
   };
 
-  //handlers 
+  // categoria services
+  const getCategoria = async (id) => {
+    SetCategoria(await categoria_service.getCategoria(id));
+  };
+
+  const getCategorias = async () => {
+    let lista_categorias = await categoria_service.getCategorias();
+    SetCategorias(lista_categorias.reverse());
+  };
+
+  const crearCategoria = async (categoria) => {
+    await categoria_service.crearCategoria(categoria);
+  };
+
+  const editarCategoria = async (id, categoria) => {
+    await categoria_service.editarCategoria(id, categoria);
+  };
+
+  const eliminarCategoria = async (id) => {
+    await categoria_service.eliminarCategoria(id);
+  };
+
+  //handlers
   const handleShow = () => setShowModal(true);
   const handleClose = () => {
     setShowModal(false);
     vaciarEstadoProducto();
     SetEditar(false);
+  };
+  const handleShowCategorias = () => setShowModalCategorias(true);
+  const handleCloseCategorias = () => {
+    setShowModalCategorias(false);
+    SetEditarCat(false);
+    SetCategoria({ ...categoria, nombre: '' });
+  };
+  const handleChangeCat = (e) => {
+    SetCategoria({ ...categoria, [e.target.name]: e.target.value });
   };
 
   const handleChange = (e) => {
@@ -73,29 +125,59 @@ function AdmProductos() {
     handleShow();
   };
 
+  const handleEditarCat = (id) => {
+    getCategoria(id);
+    SetEditarCat(true);
+  };
+
   const handleEliminar = async (id) => {
     Swal.fire({
-      title: '¿Estas seguro?',
+      title: "¿Estas seguro?",
       text: "No podrás revertir esto!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then(async(result) => {
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await eliminarProducto(id);
         getProducts();
-         Swal.fire({
-      title: 'Eliminado!',
-      text: "El producto ha sido eliminado con éxito!",
-      icon: 'success',
-      timer:'2000',
-      showConfirmButton: false
-    })
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El producto ha sido eliminado con éxito!",
+          icon: "success",
+          timer: "2000",
+          showConfirmButton: false,
+        });
       }
-    })
+    });
+  };
+
+  const handleEliminarCat = async (id) => {
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await eliminarCategoria(id);
+        getCategorias();
+        Swal.fire({
+          title: "Eliminado!",
+          text: "La categoria ha sido eliminada con éxito!",
+          icon: "success",
+          timer: "2000",
+          showConfirmButton: false,
+        });
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -109,95 +191,160 @@ function AdmProductos() {
       producto.precio_prov === 0 ||
       producto.stock === 0
     ) {
-      toast.warn("Todos Los campos son obligatorios",{ autoClose: 1500 });
+      toast.warn("Todos Los campos son obligatorios", { autoClose: 1500 });
     } else {
       if (!editar) {
         //CREAR PRODUCTO
         await crearProducto(producto);
         getProducts();
-        Swal.fire({title:'PRODUCTO AGREGADO',text:'El producto ha sido agregado con éxito!', icon:'success', showConfirmButton: false, timer:'2000'})
+        Swal.fire({
+          title: "PRODUCTO AGREGADO",
+          text: "El producto ha sido agregado con éxito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: "2000",
+        });
       } else {
         // EDITAR PRODUCTO
         await editarProducto(producto.id, producto);
         getProducts();
-        Swal.fire({title:'PRODUCTO MODIFICADO',text:'El producto ha sido editado con éxito!', icon:'success', showConfirmButton: false, timer:'2000'})
-
+        Swal.fire({
+          title: "PRODUCTO MODIFICADO",
+          text: "El producto ha sido editado con éxito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: "2000",
+        });
       }
       //ocultar modal y vaciar producto
       handleClose();
     }
   };
 
-  //------------------------------------------------------------HTML
+  const handleSubmitCat = async (e) => {
+    e.preventDefault();
+     
+    //validación de datos
+    if (
+      categoria.nombre === "" 
+    ) {
+      toast.warn("No hay nada para ingresar", { autoClose: 1500 });
+    } else {
+      if (!editarCat) {
+        //CREAR PRODUCTO
+        await crearCategoria(categoria);
+        getCategorias();
+        SetCategoria({ ...categoria, nombre: '' });
+        Swal.fire({
+          title: "CATEGORIA AGREGADA",
+          text: "La categoria ha sido agregada con éxito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: "2000",
+        });
+      } else {
+        // EDITAR PRODUCTO
+        toast.info(categoria)
+        
+        await editarCategoria(categoria.id, categoria);
+        toast.info("avanzando")
+        getCategorias();
+        SetEditarCat(false)
+        SetCategoria({ ...categoria, nombre: '' });
+        Swal.fire({
+          title: "CATEGORIA MODIFICADA",
+          text: "La categoria ha sido editada con éxito!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: "2000",
+        });
+      }
+      //ocultar modal y vaciar producto
+    }
+  };
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
+
   return (
     <>
       <Container className="mt-3">
         <Row>
-          <Col sm={9}>
+          <Col sm={7}>
             <h1>Administrar Productos 🎮📋</h1>
           </Col>
 
+
           <Col style={{ textAlign: "right" }}>
+          <Button variant="outline-dark" onClick={handleShowCategorias}>
+              Categorias <i className="bi bi-list"></i>
+            </Button>
             <Button variant="success" onClick={handleShow}>
-              Insertar <i className="bi bi-plus-circle"></i>
+              Insertar producto <i className="bi bi-plus-circle"></i>
             </Button>
           </Col>
         </Row>
-         <Row>
+        <Row>
           <hr />
-          {productos.length!==0 ?<Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Categoria</th>
-                <th>Descripción</th>
-                <th>Precio Venta</th>
-                <th>Precio Proveedor</th>
-                <th>Stock</th>
-                <th>Opciones⚙</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productos.map((producto) => (
-                <tr key={producto.id}>
-                  <td>{producto.id}</td>
-                  <td>{producto.nombre}</td>
-                  <td>{producto.categoria}</td>
-                  <td>{producto.descripcion}</td>
-                  <td>${producto.precio_ven}</td>
-                  <td>${producto.precio_prov}</td>
-                  <td>{producto.stock}</td>
-                  <td>
-                    <Button
-                      variant="primary"
-                      onClick={() => handleEditar(producto.id)}
-                    >
-                      <i className="bi bi-pencil"></i>
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleEliminar(producto.id)}
-                    >
-                      <i className="bi bi-trash"></i>
-                    </Button>
-                  </td>
+          {productos.length !== 0 ? (
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Categoria</th>
+                  <th>Descripción</th>
+                  <th>Precio Venta</th>
+                  <th>Precio Proveedor</th>
+                  <th>Stock</th>
+                  <th>Opciones⚙</th>
                 </tr>
-              ))}
-              
-            </tbody>
-          </Table>:<h1>No hay productos para mostrar.</h1>}
+              </thead>
+              <tbody>
+                {productos.map((producto) => (
+                  <tr key={producto.id}>
+                    <td>{producto.id}</td>
+                    <td>{producto.nombre}</td>
+                    <td>{producto.categoria}</td>
+                    <td>{producto.descripcion}</td>
+                    <td>${producto.precio_ven}</td>
+                    <td>${producto.precio_prov}</td>
+                    <td>{producto.stock}</td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleEditar(producto.id)}
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleEliminar(producto.id)}
+                      >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <h1>No hay productos para mostrar.</h1>
+          )}
         </Row>
       </Container>
 
-      {/* MODAL INSERTAR PRODUCTO ---------------------- */}
+      {/* MODAL INSERTAR PRODUCTO ------------------------------------------------- */}
       <div
         className="modal show"
         style={{ display: "block", position: "initial" }}
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{!editar ? "Insertar" : "Modificar"} Producto</Modal.Title>
+            <Modal.Title>
+              {!editar ? "Insertar" : "Modificar"} Producto
+            </Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -209,11 +356,19 @@ function AdmProductos() {
             ></Form.Control>
 
             <Form.Label>Categoría</Form.Label>
-            <Form.Control
-              name="categoria"
-              onChange={handleChange}
-              value={producto.categoria}
-            ></Form.Control>
+            <Form.Select
+            name="nombre"
+            onChange={(e) => SetProducto({...producto, categoria: e.target.value})}
+          >
+            <option key={0} value={0}>
+              Seleccionar categoria...
+            </option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.nombre}>
+                {categoria.nombre}
+              </option>
+            ))}
+          </Form.Select>
 
             <Form.Label>Descripción</Form.Label>
             <Form.Control
@@ -254,6 +409,82 @@ function AdmProductos() {
           </Modal.Footer>
         </Modal>
       </div>
+
+      {/* MODAL CATEGORIAS --------------------------------------------------------- */}
+      <div
+        className="modal show"
+        style={{ display: "block", position: "initial" }}
+      >
+        <Modal
+          show={showModalCategorias}
+          onHide={handleCloseCategorias}
+          size="sm"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Categorías</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <InputGroup>
+              <Form.Control
+                name="nombre"
+                onChange={handleChangeCat}
+                value={categoria.nombre}
+              ></Form.Control>
+              <Button variant="success" onClick={handleSubmitCat}>
+                {!editarCat? <>Insertar<i className='bi bi-plus-circle'></i></>: "Editar"} 
+              </Button>
+            </InputGroup>
+
+            <hr />
+
+            {categorias.length !== 0 ? (
+              <Table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Categoria</th>
+                    <th>Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {categorias.map((categoria) => (
+                    <tr key={categoria.id}>
+                      <td>{categoria.id}</td>
+                      <td>{categoria.nombre}</td>
+                      <td>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleEditarCat(categoria.id)}
+                        >
+                          <i className="bi bi-pencil"></i>
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleEliminarCat(categoria.id)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            ) : (
+              <h4>No hay categorias para mostrar.</h4>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseCategorias}>
+              Salir
+            </Button>
+            {/* <Button variant="primary" type="submit" >
+              Guardar
+            </Button> */}
+          </Modal.Footer>
+        </Modal>
+      </div>
+
       <ToastContainer />
     </>
   );

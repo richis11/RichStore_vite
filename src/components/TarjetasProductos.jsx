@@ -7,6 +7,9 @@ import { Row, Col} from "react-bootstrap";
 import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function TarjetasProductos() {
   const [productos, SetProductos] = useState([]);
 
@@ -18,6 +21,10 @@ function TarjetasProductos() {
     let lista_productos=await producto_service.getProductos();
     SetProductos(lista_productos.reverse());
   };
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
 
   return (
     <>

@@ -10,6 +10,9 @@ import {
 } from "react-bootstrap";
 import envio_service from "../services/envio_service";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function Envios() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -74,6 +77,10 @@ function Envios() {
       alert("Debes escribir un motivo para los paquetes no entregados");
     }
   };
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
 
   return (
     <>

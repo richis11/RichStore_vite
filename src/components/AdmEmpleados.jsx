@@ -13,6 +13,9 @@ import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 
+//____________________________________________________________________________________
+//_____________________________________________________________________________ CODEX
+
 function AdmEmpleados() {
   const [showModal, setShowModal] = useState(false);
   const [editar, SetEditar] = useState(false);
@@ -142,7 +145,11 @@ function AdmEmpleados() {
       handleClose();
     }
   };
-//------------------------------------------------------------- HTML
+
+  //__________________________________________________________________________________
+  //----------------------------------------------------------------------------- HTML
+  //__________________________________________________________________________________
+
   return (
     <>
       <Container className="mt-3">
@@ -208,14 +215,14 @@ function AdmEmpleados() {
         </Row>
       </Container>
 
-      {/* MODAL INSERTAR PROVEEDORES ---------------------- */}
+      {/* MODAL INSERTAR PROVEEDORES ----------------------------------------------- */}
       <div
         className="modal show"
         style={{ display: "block", position: "initial" }}
       >
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Insertar Empleados</Modal.Title>
+            <Modal.Title>{!editar ? "Insertar" : "Modificar"} Empleados</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
