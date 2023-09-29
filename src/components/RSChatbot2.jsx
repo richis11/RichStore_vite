@@ -1,6 +1,9 @@
 // src/components/ChatComponent.js
 import React, { useState } from 'react';
 import ChatBot from 'react-simple-chatbot';
+import { Button } from 'react-bootstrap';
+import './styles.css';
+
 
 const ResponseComponent = ({ steps, triggerNextStep }) => {
   const [loading, setLoading] = useState(true);
@@ -38,6 +41,8 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
 };
 
 const ChatComponent = () => {
+    const [chatVisible, setChatVisible] = useState(false);
+
   const steps = [
     {
       id: '1',
@@ -58,13 +63,23 @@ const ChatComponent = () => {
   ];
 
   return (
-    <ChatBot
-      steps={steps}
-      botDelay={200}
-      userDelay={200}
-      customDelay={200}
-      headerTitle="RichStore ChatBot"
-    />
+    <>
+      <Button
+        onClick={() => setChatVisible(!chatVisible)}
+        className="chat-toggle-button"
+      >
+        Chat <i className="bi bi-robot"></i>
+      </Button>
+      <div className={`chat-container ${chatVisible ? '' : 'chat-hidden'}`}>
+        <ChatBot
+          steps={steps}
+          botDelay={200}
+          userDelay={200}
+          customDelay={200}
+          headerTitle="ChatBot"
+        />
+      </div>
+    </>
   );
 };
 

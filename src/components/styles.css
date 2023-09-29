@@ -1,0 +1,20 @@
+.chat-toggle-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 0;
+  right: 70px;
+  width: 300px;
+  height: 590px;
+  border: 1px solid #ccc;
+  z-index: 999;
+}
+
+.chat-hidden {
+    display: none;
+  }
