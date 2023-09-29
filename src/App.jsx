@@ -12,6 +12,10 @@ import Carrito from "./components/Carrito";
 import Ventas from "./components/Ventas";
 import PDFDocument from "./components/PDFDocument";
 import Envios from "./components/Envios";
+import RSChatbot from "./components/RSChatbot";
+import RSChatbot2 from "./components/RSChatbot2";
+//import OpenAI_chatbot from "./components/OpenAI_chatbot";
+
 
 function App() {
 
@@ -47,6 +51,9 @@ function App() {
 
         <Route path="*" element={pageNotFound()} />
       </Routes>
+      {/* <OpenAI_chatbot></OpenAI_chatbot> */}
+      {/* <RSChatbot></RSChatbot> */}
+      <RSChatbot2></RSChatbot2>
     </div>
   );
 }

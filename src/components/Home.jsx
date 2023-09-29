@@ -31,7 +31,7 @@ function Home() {
                   💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - añadir buscar🤑<strong>Jueves</strong>
                 </li>
                 <li>
-                  ⏳CARDS - Productos✔ - imagenes🔎 - categorias🤑<strong>Miercoles</strong> - buscar🤑<strong>Jueves</strong>
+                  ⏳CARDS - Productos✔ - categorias✔- imagenes🔎  - buscar🤑<strong>Jueves</strong>
                 </li>
                 <li>
                   ⏳CARRITO DE LA COMPRA✔ - cantidad items✔ - manejar stock🤑<strong>Martes</strong> - ventas✔ -  envios✔
@@ -48,7 +48,7 @@ function Home() {
                 <li>🔷REPORTES - ... ya se verá de qué - </li>
                 <li>🔷NOTICIAS - PROMOCIONES - OFERTAS -</li>
                 <li>🔷RECLAMOS</li>
-                <li>💥VISUAL - Notificaciones y alertas cheveres✔</li>
+                <li>🔷VISUAL - Notificaciones y alertas cheveres✔ - Tunearlo</li>
               </ul>
               <h6>INTELIGENCIA ARTIFICIAL </h6>
               <ul>

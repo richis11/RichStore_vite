@@ -109,7 +109,7 @@ function AdmProductos() {
   const handleCloseCategorias = () => {
     setShowModalCategorias(false);
     SetEditarCat(false);
-    SetCategoria({ ...categoria, nombre: '' });
+    SetCategoria({ ...categoria, nombre: "" });
   };
   const handleChangeCat = (e) => {
     SetCategoria({ ...categoria, [e.target.name]: e.target.value });
@@ -129,6 +129,8 @@ function AdmProductos() {
     getCategoria(id);
     SetEditarCat(true);
   };
+
+
 
   const handleEliminar = async (id) => {
     Swal.fire({
@@ -221,20 +223,23 @@ function AdmProductos() {
     }
   };
 
+  const vaciarCat = () => {
+    SetEditarCat(false);
+    SetCategoria({ ...categoria, nombre: "" });
+   }
+
   const handleSubmitCat = async (e) => {
     e.preventDefault();
-     
+
     //validación de datos
-    if (
-      categoria.nombre === "" 
-    ) {
+    if (categoria.nombre === "") {
       toast.warn("No hay nada para ingresar", { autoClose: 1500 });
     } else {
       if (!editarCat) {
         //CREAR PRODUCTO
         await crearCategoria(categoria);
         getCategorias();
-        SetCategoria({ ...categoria, nombre: '' });
+        SetCategoria({ ...categoria, nombre: "" });
         Swal.fire({
           title: "CATEGORIA AGREGADA",
           text: "La categoria ha sido agregada con éxito!",
@@ -244,13 +249,11 @@ function AdmProductos() {
         });
       } else {
         // EDITAR PRODUCTO
-        toast.info(categoria)
-        
+        toast.info(categoria);
+
         await editarCategoria(categoria.id, categoria);
-        toast.info("avanzando")
         getCategorias();
-        SetEditarCat(false)
-        SetCategoria({ ...categoria, nombre: '' });
+        vaciarCat();
         Swal.fire({
           title: "CATEGORIA MODIFICADA",
           text: "La categoria ha sido editada con éxito!",
@@ -262,6 +265,10 @@ function AdmProductos() {
       //ocultar modal y vaciar producto
     }
   };
+
+
+
+
 
   //__________________________________________________________________________________
   //----------------------------------------------------------------------------- HTML
@@ -275,9 +282,8 @@ function AdmProductos() {
             <h1>Administrar Productos 🎮📋</h1>
           </Col>
 
-
           <Col style={{ textAlign: "right" }}>
-          <Button variant="outline-dark" onClick={handleShowCategorias}>
+            <Button variant="outline-dark" onClick={handleShowCategorias}>
               Categorias <i className="bi bi-list"></i>
             </Button>
             <Button variant="success" onClick={handleShow}>
@@ -357,18 +363,20 @@ function AdmProductos() {
 
             <Form.Label>Categoría</Form.Label>
             <Form.Select
-            name="nombre"
-            onChange={(e) => SetProducto({...producto, categoria: e.target.value})}
-          >
-            <option key={0} value={0}>
-              Seleccionar categoria...
-            </option>
-            {categorias.map((categoria) => (
-              <option key={categoria.id} value={categoria.nombre}>
-                {categoria.nombre}
+              name="nombre"
+              onChange={(e) =>
+                SetProducto({ ...producto, categoria: e.target.value })
+              }
+            >
+              <option key={0} value={0}>
+                Seleccionar categoria...
               </option>
-            ))}
-          </Form.Select>
+              {categorias.map((categoria) => (
+                <option key={categoria.id} value={categoria.nombre}>
+                  {categoria.nombre}
+                </option>
+              ))}
+            </Form.Select>
 
             <Form.Label>Descripción</Form.Label>
             <Form.Control
@@ -410,7 +418,7 @@ function AdmProductos() {
         </Modal>
       </div>
 
-      {/* MODAL CATEGORIAS --------------------------------------------------------- */}
+      {/*  ---------------------------------------------------------MODAL CATEGORIAS */}
       <div
         className="modal show"
         style={{ display: "block", position: "initial" }}
@@ -432,12 +440,22 @@ function AdmProductos() {
                 value={categoria.nombre}
               ></Form.Control>
               <Button variant="success" onClick={handleSubmitCat}>
-                {!editarCat? <>Insertar<i className='bi bi-plus-circle'></i></>: "Editar"} 
+                {!editarCat ? (
+                  <>
+                    Insertar <i className="bi bi-plus-circle"></i>
+                  </>
+                ) : (
+                  <>
+                    Editar <i className="bi bi-pencil"></i>
+                  </>
+                )}
               </Button>
+              {editarCat? (<Button variant="outline-secondary" size="sm" onClick={vaciarCat}><i className="bi bi-x-circle"></i></Button>):<></>}
             </InputGroup>
 
             <hr />
 
+            <div style={{ maxHeight: "400px", overflow: "auto" }}>
             {categorias.length !== 0 ? (
               <Table>
                 <thead>
@@ -473,6 +491,9 @@ function AdmProductos() {
             ) : (
               <h4>No hay categorias para mostrar.</h4>
             )}
+            </div>
+
+            
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseCategorias}>

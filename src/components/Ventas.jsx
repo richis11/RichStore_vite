@@ -104,7 +104,7 @@ function Ventas() {
                   <td>${venta.subtotal}</td>
                   <td>${venta.iva}</td>
                   <td>${venta.descuento}</td>
-                  <td>${venta.total}</td>
+                  <td>${venta.total.toFixed(2)}</td>
                   <td>{venta.tipo_pago}</td>
                   <td>
                     <Button

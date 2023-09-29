@@ -94,10 +94,10 @@ function PDF_Factura({ venta, venta_detalles }) {
           <Text>_____________________________________________ RESUMEN</Text>
           <Text>-</Text>
           <Text>Cant. Productos: {venta.cant_productos}</Text>
-          <Text>Subtotal: ${venta.subtotal}</Text>
-          <Text>Iva 12%: ${venta.iva}</Text>
-          <Text>Descuento: ${venta.descuento}</Text>
-          <Text>TOTAL: ${venta.total}</Text>
+          <Text>Subtotal: ${venta.subtotal.toFixed(2)}</Text>
+          <Text>Iva 12%: ${venta.iva.toFixed(2)}</Text>
+          <Text>Descuento: ${venta.descuento.toFixed(2)}</Text>
+          <Text>TOTAL: ${venta.total.toFixed(2)}</Text>
           <Text>Tipo de pago: {venta.tipo_pago}</Text>
           <Text>________________________________________________________</Text>
           <Text>-</Text>

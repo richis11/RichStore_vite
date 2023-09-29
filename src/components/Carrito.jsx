@@ -382,7 +382,7 @@ function Carrito() {
           <br />
           <h5>
             Vas a realizar el pago de <strong>{items}</strong> {un_producto()}{" "}
-            por un Total de <strong>${venta.total}</strong> dólares, ¿deseas
+            por un Total de <strong>${venta.total.toFixed(2)}</strong> dólares, ¿deseas
             continuar?
           </h5>
         </Modal.Body>
