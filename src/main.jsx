@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import Spawn from './Spawn'
 import './index.css'
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { CarritoContextProvider } from './context/CarritoContext';
@@ -13,7 +14,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <CarritoContextProvider>
-      <App />
+      <Spawn />
     </CarritoContextProvider>
   </BrowserRouter>,
 )

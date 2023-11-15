@@ -28,17 +28,17 @@ function Home() {
               <h6>SHOP REQUIREMENTS</h6>
               <ul>
                 <li>
-                  💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - añadir buscar🤑<strong>Jueves</strong>
+                  💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - añadir buscar🤑
                 </li>
                 <li>
-                  ⏳CARDS - Productos✔ - categorias✔- imagenes🔎  - buscar🤑<strong>Jueves</strong>
+                  ⏳CARDS - Productos✔ - categorias✔- imagenes🔎  - buscar🤑
                 </li>
                 <li>
-                  ⏳CARRITO DE LA COMPRA✔ - cantidad items✔ - manejar stock🤑<strong>Martes</strong> - ventas✔ -  envios✔
+                  ⏳CARRITO DE LA COMPRA✔ - cantidad items✔ - manejar stock🤑 - ventas✔ -  envios✔
                 </li>
-                <li>⏳FACTURAS - x email🔎<strong>SabaDomingo</strong> - generar PDF✔ - </li>
+                <li>⏳FACTURAS - x email🔎 - generar PDF✔ - </li>
                 <li>
-                    <strong>SEMANA2</strong> -🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
+                     -🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
                   - investigar cookie de sesion🔎- local storage -
                 </li>
                 <li>🔷VALIDACIONES - </li>
@@ -52,7 +52,7 @@ function Home() {
               </ul>
               <h6>INTELIGENCIA ARTIFICIAL </h6>
               <ul>
-                <li> <strong>SEMANA3</strong> - 🔷CHATBOT💬</li>
+                <li>⏳CHATBOT💬</li>
                 {/* <li>🔷🟢RECONOCIMIENTO DE IMAGENES</li> */}
               </ul>
               <h6>EN DESARROLLO...</h6>
