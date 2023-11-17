@@ -23,6 +23,9 @@ const {items} = useContext(CarritoContext)
         <Nav>
         <Nav.Link as={NavLink} to="/novedades">Novedades</Nav.Link>
           <NavDropdown title="Gestion Personas">
+          <NavDropdown.Item as={NavLink} to="/adm-users">
+              Adm. Usuarios
+            </NavDropdown.Item>
             <NavDropdown.Item as={NavLink} to="/adm-clientes">
               Adm. Clientes
             </NavDropdown.Item>

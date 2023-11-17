@@ -3,6 +3,7 @@ import ItemNavbar from "./components/little_components/ItemNavbar";
 import AdmCLientes from "./components/AdmCLientes";
 import AdmEmpleados from "./components/AdmEmpleados";
 import AdmProveedores from "./components/AdmProveedores";
+import AdmUsers from "./components/AdmUsers";
 
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -17,7 +18,7 @@ import RSChatbot from "./components/RSChatbot";
 import RSChatbot2 from "./components/RSChatbot2";
 //import OpenAI_chatbot from "./components/OpenAI_chatbot";
 
-import Login from "./components/Login";
+
 
 function App() {
   const pageNotFound = () => {
@@ -41,6 +42,7 @@ function App() {
         <Route path="/adm-empleados" element={<AdmEmpleados />} />
         <Route path="/adm-productos" element={<AdmProductos />} />
         <Route path="/adm-proveedores" element={<AdmProveedores />} />
+        <Route path="/adm-users" element={<AdmUsers />} />
 
         <Route path="/tarjetas" element={<TarjetasProductos />} />
         <Route path="/carrito" element={<Carrito />} />
