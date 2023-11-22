@@ -1,5 +1,6 @@
 import React,{useContext} from "react";
 import { CarritoContext } from "../../context/CarritoContext";
+import { UserContext } from "../../context/UserContext";
 import {
   Form,
   Button,
@@ -15,6 +16,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function ItemNavbar() {
 const {items} = useContext(CarritoContext)
+const {user} = useContext(UserContext)
 
   return (
     <>
@@ -39,13 +41,13 @@ const {items} = useContext(CarritoContext)
           <NavDropdown title="Inventario">
             <NavDropdown.Item as={NavLink} to="/adm-productos">
               Adm. Productos
-            </NavDropdown.Item>
-            
+            </NavDropdown.Item> 
           </NavDropdown>
           <Nav.Link as={NavLink} to="/tarjetas">Tarjetas Productos⏳</Nav.Link>
           <Nav.Link as={NavLink} to="/ventas">Ventas</Nav.Link>
           <Nav.Link as={NavLink} to="/envios">Envios</Nav.Link>
-          <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
+          
+         
         </Nav>
         
         <Navbar.Collapse className="justify-content-end ms-3">
@@ -58,10 +60,24 @@ const {items} = useContext(CarritoContext)
           />
           <Button variant='secondary'><i class="bi bi-search"></i></Button>
         </InputGroup> */}
+        
+       <Nav>
+        <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
+         <NavDropdown title={user? user : 'user'}>
+             {/* <NavDropdown.Item as={NavLink} to="">
+               Ver perfil ...prox
+             </NavDropdown.Item>  */}
+             <NavDropdown.Item onClick={()=>{localStorage.removeItem('token');
+             console.log('token eliminado');
+             window.location.reload();
+            }}>
+               Cerrar sesion
+             </NavDropdown.Item> 
+           </NavDropdown>
+       </Nav>
 
         <div className="me-3 ms-3">
           <a href="https://vitejs.dev" target="_blank">
-            {/* <img src={viteLogo} className="logo" alt="Vite logo" /> */}
           </a>
           <a href="https://reactjs.org" target="_blank">
             <img src={reactLogo} className="logo react" alt="React logo" />

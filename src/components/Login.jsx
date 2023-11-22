@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Card, Row, Col, Button, Form, Nav } from "react-bootstrap";
 import login_image from "../images/logintech.jpg";
 import { NavLink } from "react-router-dom";
 import login_service from "../services/login_service";
 import App from "../App";
+import { UserContext } from "../context/UserContext";
 
 
 function parseJwt(token) {
@@ -27,6 +28,8 @@ function Login() {
 const [username, SetUsername]= useState('')
 const [password, SetPassword]= useState('')
 const [loginSuccesful, SetLoginSuccesful]=useState(false)
+const {user, SetUser } = useContext(UserContext);
+
 
 const handdleLogin = (e) => {
     e.preventDefault();
@@ -44,6 +47,9 @@ const loginUser = async (e) => {
     localStorage.setItem('token', token)
     SetLoginSuccesful(true)
 
+    SetUser(parseJwt(token).username)
+
+
     console.log(parseJwt(token))
   }
   else{
@@ -54,11 +60,6 @@ const loginUser = async (e) => {
   
 };
 
-
-const getUsers = async () => {
-    let lista_users = await login_service.getUsers();
-    console.log(lista_users)
-  };
 
 
 
