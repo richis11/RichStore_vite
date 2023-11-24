@@ -16,5 +16,11 @@
 }
 
 .chat-hidden {
-    display: none;
-  }
+  display: none;
+}
+
+.chat-response {
+  border: 10pt;
+  background: "#6e48aa";
+  color: "white";
+}

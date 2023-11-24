@@ -3,11 +3,15 @@ import React, { useState } from 'react';
 import ChatBot from 'react-simple-chatbot';
 import { Button } from 'react-bootstrap';
 import './styles.css';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 
 const ResponseComponent = ({ steps, triggerNextStep }) => {
   const [loading, setLoading] = useState(true);
   const [response, setResponse] = useState('');
+  const {user} = useContext(UserContext)
+
 
   const fetchResponse = async () => {
     const userInput = steps.userInput.value;
@@ -15,7 +19,7 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
       const res = await fetch('http://localhost:3001/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texto: userInput }),
+        body: JSON.stringify({ texto: userInput, user: user }),
       });
       const data = await res.json();
       setResponse(data.result);
@@ -34,19 +38,24 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
   }, []);
 
   return (
-    <div>
-      {loading ? 'Escribiendo...' : response}
+    <div style={{borderRadius:'10pt',
+        background: "#6e48aa",
+        color: "white"
+        }}>
+      <div style={{margin:'10pt'}}>
+        {loading ? 'Escribiendo...' : response}
+      </div>
     </div>
   );
 };
 
 const ChatComponent = () => {
     const [chatVisible, setChatVisible] = useState(false);
-
+const {user} = useContext(UserContext)
   const steps = [
     {
       id: '1',
-      message: '¡Hola! ¿En qué puedo ayudarte hoy?',
+      message: '¡Hola '+ user +' ¿En qué puedo ayudarte hoy?',
       trigger: 'userInput',
     },
     {
