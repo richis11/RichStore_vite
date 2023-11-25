@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const UserContext = createContext();
 
 export function UserContextProvider(props) {
-  const [user, SetUser] = useState('user');
+  const [user, SetUser] = useState({});
 
   return (
     <UserContext.Provider

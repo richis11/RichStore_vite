@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { CarritoContext } from "../../context/CarritoContext";
 import { UserContext } from "../../context/UserContext";
 import {
@@ -8,50 +8,77 @@ import {
   Navbar,
   NavbarBrand,
   Dropdown,
-  NavDropdown, InputGroup, ButtonGroup
+  NavDropdown,
+  InputGroup,
+  ButtonGroup,
 } from "react-bootstrap";
 import reactLogo from "../../assets/react.svg";
 //import viteLogo from "../../../public/vite.svg";
 import { Link, NavLink } from "react-router-dom";
 
 function ItemNavbar() {
-const {items} = useContext(CarritoContext)
-const {user} = useContext(UserContext)
+  const { items } = useContext(CarritoContext);
+  const { user } = useContext(UserContext);
 
   return (
     <>
       <Navbar bg="dark" variant="dark">
-        <NavbarBrand as={NavLink} to="/">⭐ RICH STORE ⭐</NavbarBrand>
+        <NavbarBrand as={NavLink} to="/">
+          ⭐ RICH STORE ⭐
+        </NavbarBrand>
         <Nav>
-        <Nav.Link as={NavLink} to="/novedades">Novedades</Nav.Link>
-          <NavDropdown title="Gestion Personas">
-          <NavDropdown.Item as={NavLink} to="/adm-users">
-              Adm. Usuarios
-            </NavDropdown.Item>
-            <NavDropdown.Item as={NavLink} to="/adm-clientes">
-              Adm. Clientes
-            </NavDropdown.Item>
-            <NavDropdown.Item as={NavLink} to="/adm-empleados">
-              Adm. Empleados
-            </NavDropdown.Item>
-            <NavDropdown.Item as={NavLink} to="/adm-proveedores">
-              Adm. Proveedores
-            </NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown title="Inventario">
-            <NavDropdown.Item as={NavLink} to="/adm-productos">
-              Adm. Productos
-            </NavDropdown.Item> 
-          </NavDropdown>
-          <Nav.Link as={NavLink} to="/tarjetas">Tarjetas Productos⏳</Nav.Link>
-          <Nav.Link as={NavLink} to="/ventas">Ventas</Nav.Link>
-          <Nav.Link as={NavLink} to="/envios">Envios</Nav.Link>
-          
-         
+          {!user ||
+            (!!user && (user.role === "admin" || user.role === "cliente") && (
+              <Nav.Link as={NavLink} to="/novedades">
+                Novedades
+              </Nav.Link>
+            ))}
+
+          {!!user && user.role === "admin" && (
+            <>
+              <NavDropdown title="Gestion Personas">
+                <NavDropdown.Item as={NavLink} to="/adm-users">
+                  Adm. Usuarios
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/adm-clientes">
+                  Adm. Clientes
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/adm-empleados">
+                  Adm. Empleados
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/adm-proveedores">
+                  Adm. Proveedores
+                </NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown title="Inventario">
+                <NavDropdown.Item as={NavLink} to="/adm-productos">
+                  Adm. Productos
+                </NavDropdown.Item>
+              </NavDropdown>
+            </>
+          )}
+          {!user ||
+            (!!user && (user.role === "admin" || user.role === "cliente") && (
+              <Nav.Link as={NavLink} to="/productos">
+                Productos⏳
+              </Nav.Link>
+            ))}
+
+          {!!user && (user.role === "admin" || user.role === "almacen") && (
+            <Nav.Link as={NavLink} to="/ventas">
+              Ventas
+            </Nav.Link>
+          )}
+
+          {!!user && (user.role === "admin" || user.role === "envios" || user.role === "entregas") && (
+            <Nav.Link as={NavLink} to="/envios">
+              Envios
+            </Nav.Link>
+          )}
         </Nav>
-        
+
         <Navbar.Collapse className="justify-content-end ms-3">
-        {/* <InputGroup>
+          {/* <InputGroup>
           <Form.Control
             type="text"
             placeholder="Buscador proximamente... ⚠"
@@ -60,32 +87,37 @@ const {user} = useContext(UserContext)
           />
           <Button variant='secondary'><i class="bi bi-search"></i></Button>
         </InputGroup> */}
-        
-       <Nav>
-        <Nav.Link as={NavLink} to="/carrito">Carrito ({items})🛒⏳</Nav.Link>
-         <NavDropdown title={user? user : 'user'}>
-             {/* <NavDropdown.Item as={NavLink} to="">
+
+          <Nav>
+          {!user || (!!user && (user.role === 'admin' || user.role === 'cliente'))
+          && <Nav.Link as={NavLink} to="/carrito">
+              Carrito ({items})🛒⏳
+            </Nav.Link>}
+            
+            <NavDropdown title={user ? user.username : "user"}>
+              {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}
-             <NavDropdown.Item onClick={()=>{localStorage.removeItem('token');
-             console.log('token eliminado');
-             window.location.reload();
-            }}>
-               Cerrar sesion
-             </NavDropdown.Item> 
-           </NavDropdown>
-       </Nav>
+              <NavDropdown.Item
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  console.log("token eliminado");
+                  window.location.reload();
+                }}
+              >
+                Cerrar sesion
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
 
-        <div className="me-3 ms-3">
-          <a href="https://vitejs.dev" target="_blank">
-          </a>
-          <a href="https://reactjs.org" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
+          <div className="me-3 ms-3">
+            <a href="https://vitejs.dev" target="_blank"></a>
+            <a href="https://reactjs.org" target="_blank">
+              <img src={reactLogo} className="logo react" alt="React logo" />
+            </a>
+          </div>
         </Navbar.Collapse>
       </Navbar>
-      
     </>
   );
 }

@@ -18,9 +18,13 @@ import RSChatbot from "./components/RSChatbot";
 import RSChatbot2 from "./components/RSChatbot2";
 //import OpenAI_chatbot from "./components/OpenAI_chatbot";
 
-
+import ProtectedRoute from "./ProtectedRoute";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContext";
 
 function App() {
+  const {user} = useContext(UserContext);
+
   const pageNotFound = () => {
     return (
       <div style={{ textAlign: "center", margin: "20%" }}>
@@ -35,19 +39,28 @@ function App() {
       <ItemNavbar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/novedades" element={<Novedades />} />
+      <Route path="/" element={<Home />} />
 
-        <Route path="/adm-clientes" element={<AdmCLientes />} />
-        <Route path="/adm-empleados" element={<AdmEmpleados />} />
-        <Route path="/adm-productos" element={<AdmProductos />} />
-        <Route path="/adm-proveedores" element={<AdmProveedores />} />
-        <Route path="/adm-users" element={<AdmUsers />} />
+        <Route element={<ProtectedRoute isLogged={!user || (!!user && (user.role === 'admin' || user.role === 'cliente'))}/>}>
+          <Route path="/novedades" element={<Novedades />} />
+          <Route path="/productos" element={<TarjetasProductos />} />
+          <Route path="/carrito" element={<Carrito />} />
+        </Route>
 
-        <Route path="/tarjetas" element={<TarjetasProductos />} />
-        <Route path="/carrito" element={<Carrito />} />
-        <Route path="/ventas" element={<Ventas />} />
-        <Route path="/envios" element={<Envios />} />
+        <Route element={<ProtectedRoute isLogged={!!user && user.role === 'admin'} />}>
+          <Route path="/adm-clientes" element={<AdmCLientes />} />
+          <Route path="/adm-empleados" element={<AdmEmpleados />} />
+          <Route path="/adm-productos" element={<AdmProductos />} />
+          <Route path="/adm-proveedores" element={<AdmProveedores />} />
+          <Route path="/adm-users" element={<AdmUsers />} />
+        </Route>
+
+        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'almacen')} />}>
+          <Route path="/ventas" element={<Ventas />} />
+        </Route>
+        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'envios' || user.role === 'entregas')} />}>
+          <Route path="/envios" element={<Envios />} />
+        </Route>
 
         {/* EN DESARROOLLO */}
         <Route path="/pdf" element={<PDFDocument />} />

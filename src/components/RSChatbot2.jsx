@@ -19,7 +19,7 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
       const res = await fetch('http://localhost:3001/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texto: userInput, user: user }),
+        body: JSON.stringify({ texto: userInput, user: user.username }),
       });
       const data = await res.json();
       setResponse(data.result);
@@ -55,7 +55,7 @@ const {user} = useContext(UserContext)
   const steps = [
     {
       id: '1',
-      message: '¡Hola '+ user +' ¿En qué puedo ayudarte hoy?',
+      message: '¡Hola '+ user.username +' ¿En qué puedo ayudarte hoy?',
       trigger: 'userInput',
     },
     {

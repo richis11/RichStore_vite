@@ -47,7 +47,13 @@ const loginUser = async (e) => {
     localStorage.setItem('token', token)
     SetLoginSuccesful(true)
 
-    SetUser(parseJwt(token).username)
+    const userid = parseJwt(token).userid
+    const username = parseJwt(token).username
+    const role = parseJwt(token).role
+
+    const user = {userid, username, role}
+
+    SetUser(user)
 
 
     console.log(parseJwt(token))

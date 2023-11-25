@@ -45,7 +45,7 @@ const steps = [
       
   },
   {id:'5',
-message:"el mas gay es tu amigo elian, y encima zoofilico ya que le gusta el porno de caballos"}
+message:"jajaj sin comentarios, hablamos."}
 ];
 //____________________________________________________________________________________
 //_____________________________________________________________________________ CODEX

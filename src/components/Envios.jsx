@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Container,
   Row,
@@ -9,11 +9,14 @@ import {
   Form,
 } from "react-bootstrap";
 import envio_service from "../services/envio_service";
+import { UserContext } from "../context/UserContext";
 
 //____________________________________________________________________________________
 //_____________________________________________________________________________ CODEX
 
 function Envios() {
+  const { user } = useContext(UserContext);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (envio) => {
@@ -98,93 +101,107 @@ function Envios() {
         </Row>
         <Row>
           <hr />
-          {envios.length!==0? <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>id_transaccion</th>
-                <th>Cliente</th>
-                <th>Dirección</th>
-                <th>Cant. Prods</th>
-                <th>Total</th>
-                <th>Fecha de facturación</th>
-                <th>Fecha de Envío</th>
-                <th>Fecha de Entrega</th>
-                <th>Estado</th>
-                <th>Opciones</th>
-                <th>Observaciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {envios.map((envio) => (
-                <tr key={envio.id}>
-                  <td>{envio.id}</td>
-                  <td>{envio.id_transaccion}</td>
-                  <td>{envio.nom_cliente}</td>
-                  <td>{envio.dir_cliente}</td>
-                  <td>{envio.cant_productos}</td>
-                  <td>${envio.total}</td>
-                  <td>
-                    {envio.fecha_facturacion
-                      ? new Date(envio.fecha_facturacion).toLocaleString(
-                          "es-EC",
-                          {
-                            timeZone: "America/Guayaquil",
-                          }
-                        )
-                      : "-"}
-                  </td>
-                  <td>
-                    {envio.fecha_envio
-                      ? new Date(envio.fecha_envio).toLocaleString("es-EC", {
-                          timeZone: "America/Guayaquil",
-                        })
-                      : "-"}
-                  </td>
-                  <td>
-                    {envio.fecha_entrega
-                      ? new Date(envio.fecha_entrega).toLocaleString("es-EC", {
-                          timeZone: "America/Guayaquil",
-                        })
-                      : "-"}
-                  </td>
-                  <td>{envio.estado}</td>
-
-                  <td>
-                    {envio.fecha_envio ? (
-                      envio.estado !== "❌No Entregado" &&
-                      envio.estado !== "✔Entregado" ? (
-                        <>
-                          <Button
-                            variant="outline-success"
-                            onClick={() => entregar_pedido(envio)}
-                          >
-                            Entregar
-                          </Button>
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => handleShow(envio)}
-                          >
-                            Devolver
-                          </Button>
-                        </>
-                      ) : (
-                        "No disponible"
-                      )
-                    ) : (
-                      <Button
-                        variant="primary"
-                        onClick={() => enviar_pedido(envio)}
-                      >
-                        Enviar pedido<i class="bi bi-send"></i>
-                      </Button>
-                    )}
-                  </td>
-                  <td>{envio.observaciones}</td>
+          {envios.length !== 0 ? (
+            <Table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>id_transaccion</th>
+                  <th>Cliente</th>
+                  <th>Dirección</th>
+                  <th>Cant. Prods</th>
+                  <th>Total</th>
+                  <th>Fecha de facturación</th>
+                  <th>Fecha de Envío</th>
+                  <th>Fecha de Entrega</th>
+                  <th>Estado</th>
+                  <th>Opciones</th>
+                  <th>Observaciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>:<h1>No hay envios para mostrar.</h1>}
+              </thead>
+              <tbody>
+                {envios.map((envio) => (
+                  <tr key={envio.id}>
+                    <td>{envio.id}</td>
+                    <td>{envio.id_transaccion}</td>
+                    <td>{envio.nom_cliente}</td>
+                    <td>{envio.dir_cliente}</td>
+                    <td>{envio.cant_productos}</td>
+                    <td>${envio.total}</td>
+                    <td>
+                      {envio.fecha_facturacion
+                        ? new Date(envio.fecha_facturacion).toLocaleString(
+                            "es-EC",
+                            {
+                              timeZone: "America/Guayaquil",
+                            }
+                          )
+                        : "-"}
+                    </td>
+                    <td>
+                      {envio.fecha_envio
+                        ? new Date(envio.fecha_envio).toLocaleString("es-EC", {
+                            timeZone: "America/Guayaquil",
+                          })
+                        : "-"}
+                    </td>
+                    <td>
+                      {envio.fecha_entrega
+                        ? new Date(envio.fecha_entrega).toLocaleString(
+                            "es-EC",
+                            {
+                              timeZone: "America/Guayaquil",
+                            }
+                          )
+                        : "-"}
+                    </td>
+                    <td>{envio.estado}</td>
+
+                    <td>
+                      {envio.fecha_envio ? (
+                        envio.estado !== "❌No Entregado" &&
+                        envio.estado !== "✔Entregado" ? (
+                          <>
+                          {!!user && (user.role === "admin" || user.role === "entregas") && <>
+                              <Button
+                                variant="outline-success"
+                                onClick={() => entregar_pedido(envio)}
+                              >
+                                Entregar
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                onClick={() => handleShow(envio)}
+                              >
+                                Devolver
+                              </Button>
+                            </>}
+                            
+                          </>
+                        ) : (
+                          "No disponible"
+                        )
+                      ) : (
+                        <>
+                          {!!user && (user.role === "admin" || user.role === "envios") &&
+                            <Button
+                              variant="primary"
+                              onClick={() => enviar_pedido(envio)}
+                            >
+                              Enviar pedido<i class="bi bi-send"></i>
+                            </Button>
+                          }
+                        </>
+                      )}
+                    </td>
+                    <td>{envio.observaciones}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <h1>No hay envios para mostrar.</h1>
+          )}
         </Row>
       </Container>
 
