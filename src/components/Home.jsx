@@ -38,8 +38,8 @@ function Home() {
                 </li>
                 <li>⏳FACTURAS - x email🔎 - generar PDF✔ - </li>
                 <li>
-                     -🔷LOGIN - Jwt TOKEN🔎 - Usuarios - Roles - perfiles - Registro de Logs
-                  - investigar cookie de sesion🔎- local storage -
+                     ⏳LOGIN - Jwt TOKEN✔ - Usuarios✔ - Roles✔ - perfiles - Registro de Logs
+                  - local storage✔
                 </li>
                 <li>🔷VALIDACIONES - </li>
                 

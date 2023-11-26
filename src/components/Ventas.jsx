@@ -3,11 +3,16 @@ import venta_service from "../services/venta_service";
 import venta_detalle_service from "../services/venta_detalle_service";
 import { Container, Row, Col, Table, Button, Modal } from "react-bootstrap";
 import PDF_Factura from "./PDF_Factura";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 //____________________________________________________________________________________
 //_____________________________________________________________________________ CODEX
 
 function Ventas() {
+  const {user} = useContext(UserContext)
+
+
   const [ventas, SetVentas] = useState([]);
   const [venta, SetVenta] = useState([]);
   const [venta_detalles, SetVenta_detalles] = useState([]);
@@ -26,7 +31,15 @@ function Ventas() {
   }, []);
 
   const getVentas = async () => {
-    let lista_ventas = await venta_service.getVentas();
+    let lista_ventas
+    if(user.role==='cliente')
+    {
+       lista_ventas = await venta_service.getVentasCliente(user.userid);
+    }
+    else{
+       lista_ventas = await venta_service.getVentas();
+    }
+    
     SetVentas(lista_ventas.reverse());
   };
 
@@ -54,7 +67,8 @@ function Ventas() {
       <Container className="mt-3">
         <Row>
           <Col sm={9}>
-            <h1>VENTAS 📋📈📊</h1>
+          {user.role === 'cliente' ? <h1>MIS COMPRAS 🤑</h1> :<h1>VENTAS 📋📈📊</h1>}
+            
           </Col>
 
           <Col style={{ textAlign: "right" }}>
@@ -68,7 +82,8 @@ function Ventas() {
           {ventas.length!==0? <Table>
             <thead>
               <tr>
-                <th>#</th>
+              {!!user && user.role !=='cliente' && <th>#</th>}
+                
                 <th>id_transaccion</th>
                 <th>Fecha</th>
                 <th>id_cliente</th>
@@ -88,7 +103,8 @@ function Ventas() {
             <tbody>
               {ventas.map((venta) => (
                 <tr key={venta.id}>
-                  <td>{venta.id}</td>
+                  {!!user && user.role !=='cliente' && <td>{venta.id}</td>}
+                  
                   <td>{venta.id_transaccion}</td>
                   <td>
                     {new Date(venta.fecha).toLocaleString("es-EC", {

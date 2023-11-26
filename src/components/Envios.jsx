@@ -32,8 +32,18 @@ function Envios() {
   const [envios, SetEnvios] = useState([]);
   const [envio, SetEnvio] = useState([]);
 
+
+
   const getEnvios = async () => {
-    let lista_envios = await envio_service.getEnvios();
+    let lista_envios
+    if(user.role==='cliente')
+    {
+      lista_envios = await envio_service.getEnviosCliente(user.userid);
+    }
+    else{
+      lista_envios = await envio_service.getEnvios();
+    }
+    
     SetEnvios(lista_envios.reverse());
   };
 
@@ -90,7 +100,8 @@ function Envios() {
       <Container className="mt-3">
         <Row>
           <Col sm={9}>
-            <h1>ENVIOS 📋📦🚛</h1>
+
+            {user.role === 'cliente' ? <h1>MIS PEDIDOS 🤑📦🚛</h1> :<h1>ENVIOS 📋📦🚛</h1>}
           </Col>
 
           <Col style={{ textAlign: "right" }}>
@@ -105,9 +116,11 @@ function Envios() {
             <Table>
               <thead>
                 <tr>
-                  <th>#</th>
+                 
+                  {!!user && user.role !=='cliente' &&  <th>#</th>}
                   <th>id_transaccion</th>
-                  <th>Cliente</th>
+                  {!!user && user.role !=='cliente' &&  <th>Cliente</th>}
+                  
                   <th>Dirección</th>
                   <th>Cant. Prods</th>
                   <th>Total</th>
@@ -115,16 +128,19 @@ function Envios() {
                   <th>Fecha de Envío</th>
                   <th>Fecha de Entrega</th>
                   <th>Estado</th>
-                  <th>Opciones</th>
+                  {!!user && user.role !=='cliente' && <th>Opciones</th>}
+                  
                   <th>Observaciones</th>
                 </tr>
               </thead>
               <tbody>
                 {envios.map((envio) => (
                   <tr key={envio.id}>
-                    <td>{envio.id}</td>
+                    {!!user && user.role !=='cliente' && <td>{envio.id}</td>}
+                    
                     <td>{envio.id_transaccion}</td>
-                    <td>{envio.nom_cliente}</td>
+                    {!!user && user.role !=='cliente' && <td>{envio.nom_cliente}</td>}
+                    
                     <td>{envio.dir_cliente}</td>
                     <td>{envio.cant_productos}</td>
                     <td>${envio.total}</td>
@@ -156,7 +172,8 @@ function Envios() {
                         : "-"}
                     </td>
                     <td>{envio.estado}</td>
-
+                    
+                    {!!user && user.role !=='cliente' && 
                     <td>
                       {envio.fecha_envio ? (
                         envio.estado !== "❌No Entregado" &&
@@ -194,7 +211,9 @@ function Envios() {
                         </>
                       )}
                     </td>
-                    <td>{envio.observaciones}</td>
+                    }
+                    
+                    <td>{envio.observaciones? envio.observaciones: 'Todo en orden.'}</td>
                   </tr>
                 ))}
               </tbody>

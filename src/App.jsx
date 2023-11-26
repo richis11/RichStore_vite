@@ -55,10 +55,10 @@ function App() {
           <Route path="/adm-users" element={<AdmUsers />} />
         </Route>
 
-        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'almacen')} />}>
+        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'almacen' || user.role === 'cliente')} />}>
           <Route path="/ventas" element={<Ventas />} />
         </Route>
-        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'envios' || user.role === 'entregas')} />}>
+        <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'envios' || user.role === 'entregas'|| user.role === 'cliente')} />}>
           <Route path="/envios" element={<Envios />} />
         </Route>
 

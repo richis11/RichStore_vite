@@ -10,6 +10,10 @@ const getEnvio = async (id) => {
   return (await api.get(`${baseURL}/${id}`)).data;
 };
 
+const getEnviosCliente = async (userid) => {
+  return (await api.get(`${baseURL}/cliente/${userid}`)).data;
+};
+
 const crearEnvio = async (envio) => {
   return (await api.post(`${baseURL}`, envio));
 };
@@ -25,6 +29,7 @@ const eliminarEnvio = async (id) => {
 export default {
   getEnvios,
   getEnvio,
+  getEnviosCliente,
   crearEnvio,
   editarEnvio,
   eliminarEnvio,

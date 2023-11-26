@@ -8,6 +8,9 @@ const getVentas= async()=>{
 const getVenta= async(id)=>{
     return (await api.get(`${baseURL}/${id}`)).data;
 }
+const getVentasCliente= async(userid)=>{
+    return (await api.get(`${baseURL}/cliente/${userid}`)).data;
+}
 const crearVenta = async(venta)=>{
     return (await api.post(`${baseURL}`, venta))
 }
@@ -21,6 +24,7 @@ const eliminarVenta= async(id)=>{
 export default {
     getVentas,
     getVenta,
+    getVentasCliente,
     crearVenta,
     editarVenta,
     eliminarVenta

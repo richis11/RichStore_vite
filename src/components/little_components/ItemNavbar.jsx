@@ -60,19 +60,19 @@ function ItemNavbar() {
           {!user ||
             (!!user && (user.role === "admin" || user.role === "cliente") && (
               <Nav.Link as={NavLink} to="/productos">
-                Productos⏳
+                Productos
               </Nav.Link>
             ))}
 
-          {!!user && (user.role === "admin" || user.role === "almacen") && (
+          {!!user && (user.role === "admin" || user.role === "almacen"|| user.role === 'cliente') && (
             <Nav.Link as={NavLink} to="/ventas">
-              Ventas
+              {user.role === 'cliente' ? 'Mis compras' :'Ventas'}
             </Nav.Link>
           )}
 
-          {!!user && (user.role === "admin" || user.role === "envios" || user.role === "entregas") && (
+          {!!user && (user.role === "admin" || user.role === "envios" || user.role === "entregas"|| user.role === 'cliente') && (
             <Nav.Link as={NavLink} to="/envios">
-              Envios
+              {user.role === 'cliente' ? 'Mis pedidos' :'Envios'}
             </Nav.Link>
           )}
         </Nav>
@@ -91,7 +91,7 @@ function ItemNavbar() {
           <Nav>
           {!user || (!!user && (user.role === 'admin' || user.role === 'cliente'))
           && <Nav.Link as={NavLink} to="/carrito">
-              Carrito ({items})🛒⏳
+              Carrito ({items})🛒
             </Nav.Link>}
             
             <NavDropdown title={user ? user.username : "user"}>
