@@ -8,6 +8,9 @@ const getClientes= async()=>{
 const getCliente= async(id)=>{
     return (await api.get(`${baseURL}/${id}`)).data;
 }
+const getClienteUserid= async(userid)=>{
+    return (await api.get(`${baseURL}/userid/${userid}`)).data;
+}
 const crearCliente = async(cliente)=>{
     return (await api.post(`${baseURL}`, cliente))
 }
@@ -21,6 +24,7 @@ const eliminarCliente= async(id)=>{
 export default {
     getClientes,
     getCliente,
+    getClienteUserid,
     crearCliente,
     editarCliente,
     eliminarCliente

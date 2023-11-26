@@ -22,12 +22,17 @@ import envio_service from "../services/envio_service";
 import {toast, ToastContainer} from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 
+import { UserContext } from "../context/UserContext";
+
 //____________________________________________________________________________________
 //_____________________________________________________________________________ CODEX
 
 function Carrito() {
   const { items, SetItems, carrito, SetCarrito, quitar_del_carrito, cantidad_item } =
     useContext(CarritoContext);
+
+    const {user} = useContext(UserContext)
+  
   const [venta, SetVenta] = useState({
     id_transaccion: "",
     fecha: null,
@@ -96,12 +101,21 @@ function Carrito() {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {setShow(true)
+  crearVenta()
+  getClientes();
+  }
 
   useEffect(() => {
     calcularVenta();
-    getClientes();
-    crearVenta();
+   
+    if(!!user && user.role === 'admin')
+    {
+      crearVenta()
+    }
+    else{
+      getClienteUserid(user.userid)
+    }
   }, [items, cliente]);
 
   const calcularVenta = () => {
@@ -130,6 +144,9 @@ function Carrito() {
   const getCliente = async (id) => {
     SetCliente(await cliente_service.getCliente(id));
   };
+  const getClienteUserid = async (userid) => {
+    SetCliente(await cliente_service.getClienteUserid(userid));
+  };
 
   const un_producto = () => {
     if (items == 1) {
@@ -141,7 +158,8 @@ function Carrito() {
 
   const seleccionarCliente = (id) => {
     if (id != 0) {
-      SetCliente(getCliente(id));
+      SetCliente(getCliente(id))
+      crearVenta()
     } else {
       vaciarCliente();
     }
@@ -347,9 +365,11 @@ function Carrito() {
           <h5>
             Estas a punto de realizar una compra EN LA MEJOR TIENDA ONLINE 😎🤑
           </h5>
+          {!!user && user.role === 'admin' &&
+          <>
           <br />
-          <h5>Identificate!</h5>
-          <span>Selecciona el cliente que eres:</span>
+          <h5>Modo admin!</h5>
+          <span>Selecciona el cliente para esta venta:</span>
           <Form.Select
             name="cliente"
             onChange={(e) => seleccionarCliente(e.target.value)}
@@ -363,6 +383,9 @@ function Carrito() {
               </option>
             ))}
           </Form.Select>
+          </>
+          }
+          
           <br />
           <h5>Método de pago</h5>
           <Form.Select
