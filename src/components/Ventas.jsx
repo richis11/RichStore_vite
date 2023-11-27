@@ -86,7 +86,8 @@ function Ventas() {
                 
                 <th>id_transaccion</th>
                 <th>Fecha</th>
-                <th>id_cliente</th>
+                {!!user && user.role !=='cliente' && <th>id_cliente</th>}
+                
                 <th>Nombres</th>
                 <th>Dirección</th>
                 {/* <th>Teléfono</th> */}
@@ -111,7 +112,8 @@ function Ventas() {
                       timeZone: "America/Guayaquil",
                     })}
                   </td>
-                  <td>{venta.id_cliente}</td>
+                  {!!user && user.role !=='cliente' && <td>{venta.id_cliente}</td>}
+                  
                   <td>{venta.nom_cliente}</td>
                   <td>{venta.dir_cliente}</td>
                   {/* <td>{venta.telefono}</td>

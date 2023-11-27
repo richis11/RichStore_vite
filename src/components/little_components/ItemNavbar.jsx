@@ -27,12 +27,11 @@ function ItemNavbar() {
           ⭐ RICH STORE ⭐
         </NavbarBrand>
         <Nav>
-          {!user ||
-            (!!user && (user.role === "admin" || user.role === "cliente") && (
-              <Nav.Link as={NavLink} to="/novedades">
-                Novedades
-              </Nav.Link>
-            ))}
+        {(!!user || user.role === "admin" || user.role === "cliente") && (
+          <Nav.Link as={NavLink} to="/novedades">
+            Novedades
+          </Nav.Link>
+        )}
 
           {!!user && user.role === "admin" && (
             <>
@@ -94,7 +93,7 @@ function ItemNavbar() {
               Carrito ({items})🛒
             </Nav.Link>}
             
-            <NavDropdown title={user ? user.username : "user"}>
+            {user? <NavDropdown title={user ? user.username : "user"}>
               {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}
@@ -108,6 +107,13 @@ function ItemNavbar() {
                 Cerrar sesion
               </NavDropdown.Item>
             </NavDropdown>
+            :
+            
+            <Nav.Link as={NavLink} to="/login">
+              Acceder
+            </Nav.Link>
+             }
+            
           </Nav>
 
           <div className="me-3 ms-3">

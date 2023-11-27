@@ -9,9 +9,11 @@ import {
   Form,
 } from "react-bootstrap";
 import cliente_service from "../services/cliente_service";
+import user_service from "../services/user_service";
 import Swal from "sweetalert2";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidV4 } from "uuid";
 
 //____________________________________________________________________________________
 //_____________________________________________________________________________ CODEX
@@ -21,19 +23,46 @@ function AdmCLientes() {
   const [editar, SetEditar] = useState(false);
   const [clientes, SetClientes] = useState([]);
   const [cliente, SetCliente] = useState({
+    userid: "",
     cedula: "",
     nombres: "",
     telefono: "",
     email: "",
     direccion: "",
   });
+  const [user, SetUser] = useState({
+    userid: "",
+    username: "",
+    password: "",
+    //repeatpassword: "",
+    email: "",
+    role: "",
+    estado: "",
+    created_at: "",
+    updated_at: "",
+  });
+  const vaciarEstadoUser = () => {
+    SetUser({
+      userid: "",
+      username: "",
+      password: "",
+      //repeatpassword: "",
+      email: "",
+      role: "",
+      estado: "",
+      created_at: "",
+      updated_at: "",
+    });
+  };
+
 
   useEffect(() => {
     getClientes();
-  }, []);
+  }, [user]);
 
   const vaciarEstadoCliente = () => {
     SetCliente({
+      userid: "",
       cedula: "",
       nombres: "",
       telefono: "",
@@ -56,6 +85,10 @@ function AdmCLientes() {
     await cliente_service.crearCliente(cliente);
   };
 
+  const crearUser = async (user) => {
+    await user_service.crearUser(user);
+  };
+
   const editarCliente = async (id, cliente) => {
     await cliente_service.editarCliente(id, cliente);
   };
@@ -65,15 +98,29 @@ function AdmCLientes() {
   };
 
   //handlers
-  const handleShow = () => setShowModal(true);
+  const handleShow = (opc) => {
+    if(opc){
+      let useruuid = 'U-'+uuidV4();
+      SetUser({ ...user, userid: useruuid, role:'cliente',estado:'Activo'})
+      SetCliente({...cliente, userid: useruuid})
+    }
+    setShowModal(true)};
   const handleClose = () => {
     setShowModal(false);
     vaciarEstadoCliente();
+    vaciarEstadoUser();
     SetEditar(false);
   };
 
   const handleChange = (e) => {
     SetCliente({ ...cliente, [e.target.name]: e.target.value });
+  };
+  const handleChangeUser = (e) => {
+    SetUser({ ...user, [e.target.name]: e.target.value });
+  };
+  const handleEmail = (e) => {
+    SetCliente({ ...cliente, [e.target.name]: e.target.value });
+    SetUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleEditar = (id) => {
@@ -111,6 +158,8 @@ function AdmCLientes() {
     e.preventDefault();
     //validación de datos
     if (
+      user.username === "" ||
+      user.password === "" ||
       cliente.cedula === "" ||
       cliente.nombres === "" ||
       cliente.telefono === "" ||
@@ -120,8 +169,10 @@ function AdmCLientes() {
       toast.warn("Todos Los campos son obligatorios", { autoClose: 1500 });
     } else {
       if (!editar) {
-        //CREAR CLIENTE
-        await crearCliente(cliente);
+        //CREAR USER Y CLIENTE
+        //SetUser({ ...user, email: cliente.email });
+        await crearUser(user)
+        await crearCliente(cliente)
         getClientes();
         Swal.fire({ title: "CLIENTE AGREGADO",
         text: "El  cliente ha sido agregado con éxito!", icon: "success" , showConfirmButton: false, timer:'2000' });
@@ -212,6 +263,37 @@ function AdmCLientes() {
           </Modal.Header>
 
           <Modal.Body>
+            {!editar? <>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              name="username"
+              onChange={handleChangeUser}
+              value={user.username}
+            ></Form.Control>
+            <Row>
+              <Col>
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  name="password"
+                  onChange={handleChangeUser}
+                  value={user.password}
+                ></Form.Control>
+              </Col>
+              {/* <Col>
+                <Form.Label>Repeat Password</Form.Label>
+                <Form.Control
+                  name="repeatpassword"
+                  onChange={handleChangeUser}
+                  value={user.repeatpassword}
+                ></Form.Control>
+              </Col> */}
+            </Row>
+            </>
+            : <></>}
+            
+
+
+
             <Form.Label>#Cédula</Form.Label>
             <Form.Control
               name="cedula"
@@ -236,7 +318,7 @@ function AdmCLientes() {
             <Form.Label>@Email</Form.Label>
             <Form.Control
               name="email"
-              onChange={handleChange}
+              onChange={handleEmail}
               value={cliente.email}
             ></Form.Control>
 

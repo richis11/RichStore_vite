@@ -21,8 +21,10 @@ import RSChatbot2 from "./components/RSChatbot2";
 import ProtectedRoute from "./ProtectedRoute";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
+import NewClient from "./components/NewClient";
+import Login from "./components/Login";
 
-function App() {
+function App({setShowLogin}) {
   const {user} = useContext(UserContext);
 
   const pageNotFound = () => {
@@ -39,10 +41,13 @@ function App() {
       <ItemNavbar />
 
       <Routes>
+      {/* <Route path="/login" element={<Login />} /> */}
+      <Route path="/newuser" element={<NewClient />} />
       <Route path="/" element={<Home />} />
+      <Route path="/novedades" element={<Novedades />} />
 
         <Route element={<ProtectedRoute isLogged={!user || (!!user && (user.role === 'admin' || user.role === 'cliente'))}/>}>
-          <Route path="/novedades" element={<Novedades />} />
+          
           <Route path="/productos" element={<TarjetasProductos />} />
           <Route path="/carrito" element={<Carrito />} />
         </Route>
