@@ -74,6 +74,11 @@ function ItemNavbar() {
               {user.role === 'cliente' ? 'Mis pedidos' :'Envios'}
             </Nav.Link>
           )}
+           {!!user && (user.role === "admin" || user.role === 'cliente') && (
+            <Nav.Link as={NavLink} to="/analythics">
+              {user.role === 'admin' ? 'Analythics' :'Reportes'}
+            </Nav.Link>
+          )}
         </Nav>
 
         <Navbar.Collapse className="justify-content-end ms-3">

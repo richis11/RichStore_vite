@@ -103,7 +103,7 @@ function Carrito() {
   const handleClose = () => setShow(false);
   const handleShow = () => {setShow(true)
   crearVenta()
-  getClientes();
+  {user.role === 'admin' && getClientes()}
   }
 
   useEffect(() => {

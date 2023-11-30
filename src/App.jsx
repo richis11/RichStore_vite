@@ -23,6 +23,7 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
 import NewClient from "./components/NewClient";
 import Login from "./components/Login";
+import Analythics from "./components/Analythics";
 
 function App({setShowLogin}) {
   const {user} = useContext(UserContext);
@@ -65,6 +66,7 @@ function App({setShowLogin}) {
         </Route>
         <Route element={<ProtectedRoute isLogged={!!user && (user.role === 'admin' || user.role === 'envios' || user.role === 'entregas'|| user.role === 'cliente')} />}>
           <Route path="/envios" element={<Envios />} />
+          <Route path="/analythics" element={<Analythics />} />
         </Route>
 
         {/* EN DESARROOLLO */}

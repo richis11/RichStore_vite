@@ -8,9 +8,6 @@ const getVentas= async()=>{
 const getVenta= async(id)=>{
     return (await api.get(`${baseURL}/${id}`)).data;
 }
-const getVentasCliente= async(userid)=>{
-    return (await api.get(`${baseURL}/cliente/${userid}`)).data;
-}
 const crearVenta = async(venta)=>{
     return (await api.post(`${baseURL}`, venta))
 }
@@ -21,11 +18,33 @@ const eliminarVenta= async(id)=>{
     return (await api.delete(`${baseURL}/${id}`));
 }
 
+
+const getVentasCliente= async(userid)=>{
+    return (await api.get(`${baseURL}/cliente/${userid}`)).data;
+}
+const getProductosXcliente= async(userid)=>{
+    return (await api.get(`${baseURL}/cliente/${userid}`)).data;
+}
+const getTop10productosXcliente= async(userid)=>{
+    return (await api.get(`${baseURL}/clienteTop10Prods/${userid}`)).data;
+}
+const getTop10Productos= async()=>{
+    return (await api.get(`${baseURL}/top10/prods`)).data;
+}
+
+
+
+
+
 export default {
     getVentas,
     getVenta,
-    getVentasCliente,
     crearVenta,
     editarVenta,
-    eliminarVenta
+    eliminarVenta,
+
+    getVentasCliente,
+    getProductosXcliente,
+    getTop10productosXcliente,
+    getTop10Productos
 }
