@@ -31,6 +31,9 @@ const getTop10productosXcliente= async(userid)=>{
 const getTop10Productos= async()=>{
     return (await api.get(`${baseURL}/top10/prods`)).data;
 }
+const getTop10Clientes= async()=>{
+    return (await api.get(`${baseURL}/top10/clientes`)).data;
+}
 
 
 
@@ -46,5 +49,6 @@ export default {
     getVentasCliente,
     getProductosXcliente,
     getTop10productosXcliente,
-    getTop10Productos
+    getTop10Productos,
+    getTop10Clientes
 }

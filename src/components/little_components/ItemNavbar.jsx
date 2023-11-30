@@ -27,7 +27,7 @@ function ItemNavbar() {
           ⭐ RICH STORE ⭐
         </NavbarBrand>
         <Nav>
-        {(!!user || user.role === "admin" || user.role === "cliente") && (
+        {(!user || user.role === "admin" || user.role === "cliente") && (
           <Nav.Link as={NavLink} to="/novedades">
             Novedades
           </Nav.Link>
@@ -75,8 +75,8 @@ function ItemNavbar() {
             </Nav.Link>
           )}
            {!!user && (user.role === "admin" || user.role === 'cliente') && (
-            <Nav.Link as={NavLink} to="/analythics">
-              {user.role === 'admin' ? 'Analythics' :'Reportes'}
+            <Nav.Link as={NavLink} to="/analytics">
+              {user.role === 'admin' ? 'Analytics' :'Reportes'}
             </Nav.Link>
           )}
         </Nav>

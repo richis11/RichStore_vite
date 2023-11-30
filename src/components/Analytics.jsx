@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import BarrasProdClien from "./little_components/BarrasProdClien";
-import BarrasProdClien2 from "./little_components/BarrasProdClien2";
+import BarrasTopClientes from "./little_components/BarrasTopClien";
 import { Container, Row, Col } from "react-bootstrap";
 import venta_service from "../services/venta_service";
 import cliente_service from "../services/cliente_service";
 import { UserContext } from "../context/UserContext";
 
-function Analythics() {
+function Analytics() {
     const [clientes, SetClientes] = useState([])
     const {user} = useContext(UserContext)
 
@@ -40,7 +40,7 @@ function Analythics() {
                 <BarrasProdClien clientes= {clientes}/>
             </Col>
             <Col>
-                {/* <BarrasProdClien2 clientes= {clientes}/> */}
+                {!!user&& user.role ==='admin' &&<BarrasTopClientes/>}
             </Col>
         </Row>
         
@@ -51,4 +51,4 @@ function Analythics() {
   );
 }
 
-export default Analythics;
+export default Analytics;

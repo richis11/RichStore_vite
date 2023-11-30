@@ -18,10 +18,17 @@ const eliminarProducto= async(id)=>{
     return (await api.delete(`${baseURL}/${id}`));
 }
 
+
+const getNewProducts= async()=>{
+    return (await api.get(`${baseURL}/new/products/`)).data;
+}
+
+
 export default {
     getProductos,
     getProducto,
     crearProducto,
     editarProducto,
-    eliminarProducto
+    eliminarProducto,
+    getNewProducts
 }
