@@ -31,7 +31,7 @@ function Novedades() {
             <Carousel activeIndex={index} onSelect={handleSelect}>
             {productos.map((producto) =>(
               <Carousel.Item key={producto.id}>
-                <CarouselImage text="First slide" />
+                <CarouselImage text="First slide" imgUrl={producto.imgUrl}/>
                 <Carousel.Caption>
                   <h3>{producto.nombre}</h3>
                   <p>

@@ -38,6 +38,42 @@ function AdmProductos() {
     nombre: "",
   });
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+      setSelectedFile(e.target.files[0]);
+  };
+  
+  const handleUpload = async (e) => {
+      e.preventDefault();
+      if (!selectedFile) {
+          alert('Por favor, selecciona un archivo primero.');
+          return;
+      }
+  
+      // Aquí puedes implementar la lógica para subir el archivo a Cloudinary
+      // Utiliza FormData para enviar el archivo
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('upload_preset', 'quetzacoatl');
+  
+      // Sube la imagen usando fetch o axios
+      const response = await fetch('https://api.cloudinary.com/v1_1/dytjnd8mb/image/upload', {
+          method: 'POST',
+          body: formData
+      });
+  
+      const data = await response.json();
+      console.log(data);
+      return data
+  };
+  
+
+
+
+
+
+
   useEffect(() => {
     getProducts();
     getCategorias();
@@ -197,7 +233,18 @@ function AdmProductos() {
     } else {
       if (!editar) {
         //CREAR PRODUCTO
-        await crearProducto(producto);
+        if (!selectedFile) {
+          alert('Por favor, selecciona un archivo primero.');
+          return;
+        }
+        const imgData = await handleUpload(e)
+        console.log('IMRIMIENDO IMG-DATA...')
+        //console.log(imgData)
+        const imgUrl = imgData.url
+        console.log(imgUrl)
+        const newProduct = {...producto, imgUrl:imgUrl}
+
+        await crearProducto(newProduct);
         getProducts();
         Swal.fire({
           title: "PRODUCTO AGREGADO",
@@ -292,6 +339,11 @@ function AdmProductos() {
           </Col>
         </Row>
         <Row>
+          {/* <InputGroup>
+              <Form.Control type="file" onChange={handleFileChange} />
+              <Button onClick={handleUpload} >Subir Imagen</Button>
+          </InputGroup> */}
+      
           <hr />
           {productos.length !== 0 ? (
             <Table>
@@ -405,6 +457,8 @@ function AdmProductos() {
               onChange={handleChange}
               value={producto.stock}
             ></Form.Control>
+              <br/>
+                <Form.Control type="file" onChange={handleFileChange} />
           </Modal.Body>
 
           <Modal.Footer>

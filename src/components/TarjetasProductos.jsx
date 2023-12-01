@@ -32,7 +32,7 @@ function TarjetasProductos() {
       <hr />
       {productos.length!==0? <div className="" style={{display:'flex',flexWrap:'wrap'}}>
         {productos.map((producto) => (
-            <CardProducto key={producto.id} producto={producto} />
+            <CardProducto key={producto.id} producto={producto}/>
         ))}
       </div>:<h1>No hay productos disponibles.</h1>}
 

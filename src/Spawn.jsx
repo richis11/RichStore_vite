@@ -30,7 +30,7 @@ function Spawn() {
     if (token) {
       tokenExistAndIsValid =
         parseJwt(localStorage.getItem("token")).exp * 1000 > Date.now();
-      console.log("existe un token");
+      console.log(tokenExistAndIsValid?"existe un token":"existe un token no valido");
 
         const userid = parseJwt(token).userid
         const username = parseJwt(token).username

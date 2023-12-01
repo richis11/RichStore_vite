@@ -31,7 +31,7 @@ function Home() {
                   💥CRUD - productos✔, clientes✔, proveedores✔, empleados✔ - añadir buscar🤑
                 </li>
                 <li>
-                  ⏳CARDS - Productos✔ - categorias✔- imagenes🔎  - buscar🤑
+                  ⏳CARDS - Productos✔ - categorias✔- imagenes✔  - buscar🤑
                 </li>
                 <li>
                   ⏳CARRITO DE LA COMPRA✔ - cantidad items✔ - manejar stock🤑 - ventas✔ -  envios✔
@@ -45,7 +45,7 @@ function Home() {
                 
                 <li>🔷SISTEMA DE PAGOS - investigar Paypal y Tarjetas de crédito🔎 - CONTROL DE CONCURRENCIA</li>
                 
-                <li>🔷REPORTES - ... ya se verá de qué - </li>
+                <li>⏳REPORTES - 10 mejores clientes✔ - 10 productos mas vendidos✔</li>
                 <li>🔷NOTICIAS - PROMOCIONES - OFERTAS -</li>
                 <li>🔷RECLAMOS</li>
                 <li>🔷VISUAL - Notificaciones y alertas cheveres✔ - Tunearlo</li>
