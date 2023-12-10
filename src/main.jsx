@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import Spawn from "./Spawn";
 import "./index.css";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import {  BrowserRouter } from "react-router-dom";
 import { CarritoContextProvider } from "./context/CarritoContext";
 import { UserContextProvider } from "./context/UserContext";
 
