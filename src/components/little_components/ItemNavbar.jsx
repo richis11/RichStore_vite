@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CarritoContext } from "../../context/CarritoContext";
 import { UserContext } from "../../context/UserContext";
 import {
@@ -14,11 +14,26 @@ import {
 } from "react-bootstrap";
 import reactLogo from "../../assets/react.svg";
 //import viteLogo from "../../../public/vite.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import producto_service from "../../services/producto_service";
 
-function ItemNavbar() {
+function ItemNavbar({ onLoginClick, onLogoutClick }) {
   const { items } = useContext(CarritoContext);
   const { user } = useContext(UserContext);
+
+  const [busqueda, SetBusqueda] = useState("");
+  const navigate = useNavigate();
+
+  const handleKeyDown = (e) => {
+    // Verificar si la tecla presionada es Enter
+    if (e.key === "Enter") {
+      // Aquí colocas la lógica que quieres ejecutar cuando se presione Enter
+      handleSubmit();
+    }
+  };
+  const handleSubmit = async () => {
+    navigate(`/productos?query=${encodeURIComponent(busqueda)}`);
+  };
 
   return (
     <>
@@ -27,11 +42,9 @@ function ItemNavbar() {
           ⭐ RICH STORE ⭐
         </NavbarBrand>
         <Nav>
-        {(!user || user.role === "admin" || user.role === "cliente") && (
-          <Nav.Link as={NavLink} to="/novedades">
-            Novedades
-          </Nav.Link>
-        )}
+            <Nav.Link as={NavLink} to="/novedades">
+              Novedades
+            </Nav.Link>
 
           {!!user && user.role === "admin" && (
             <>
@@ -56,76 +69,90 @@ function ItemNavbar() {
               </NavDropdown>
             </>
           )}
-          {!user ||
-            (!!user && (user.role === "admin" || user.role === "cliente") && (
+          
               <Nav.Link as={NavLink} to="/productos">
                 Productos
               </Nav.Link>
-            ))}
+            
 
-          {!!user && (user.role === "admin" || user.role === "almacen"|| user.role === 'cliente') && (
-            <Nav.Link as={NavLink} to="/ventas">
-              {user.role === 'cliente' ? 'Mis compras' :'Ventas'}
-            </Nav.Link>
-          )}
+          {!!user &&
+            (user.role === "admin" ||
+              user.role === "almacen" ||
+              user.role === "cliente") && (
+              <Nav.Link as={NavLink} to="/ventas">
+                {user.role === "cliente" ? "Mis compras" : "Ventas"}
+              </Nav.Link>
+            )}
 
-          {!!user && (user.role === "admin" || user.role === "envios" || user.role === "entregas"|| user.role === 'cliente') && (
-            <Nav.Link as={NavLink} to="/envios">
-              {user.role === 'cliente' ? 'Mis pedidos' :'Envios'}
-            </Nav.Link>
-          )}
-           {!!user && (user.role === "admin" || user.role === 'cliente') && (
+          {!!user &&
+            (user.role === "admin" ||
+              user.role === "envios" ||
+              user.role === "entregas" ||
+              user.role === "cliente") && (
+              <Nav.Link as={NavLink} to="/envios">
+                {user.role === "cliente" ? "Mis pedidos" : "Envios"}
+              </Nav.Link>
+            )}
+          {!!user && (user.role === "admin" || user.role === "cliente") && (
             <Nav.Link as={NavLink} to="/analytics">
-              {user.role === 'admin' ? 'Analytics' :'Reportes'}
+              {user.role === "admin" ? "Analytics" : "Reportes"}
             </Nav.Link>
           )}
         </Nav>
 
-        <Navbar.Collapse className="justify-content-end ms-3">
-          {/* <InputGroup>
-          <Form.Control
-            type="text"
-            placeholder="Buscador proximamente... ⚠"
-            aria-label="Input group example"
-            aria-describedby="btnGroupAddon"
-          />
-          <Button variant='secondary'><i class="bi bi-search"></i></Button>
-        </InputGroup> */}
+        <Navbar.Collapse className="justify-content-end ms-3 ">
+          <InputGroup >
+            <Form.Control
+             
+              type="text"
+              placeholder="Buscar..."
+              aria-label="Input group example"
+              aria-describedby="btnGroupAddon"
+              onChange={(e) => SetBusqueda(e.target.value)}
+              value={busqueda}
+              onKeyDown={handleKeyDown}
+            />
+            <Button variant="secondary">
+              <i class="bi bi-search" onClick={handleSubmit}></i>
+            </Button>
+          </InputGroup>
 
           <Nav>
-          {!user || (!!user && (user.role === 'admin' || user.role === 'cliente'))
-          && <Nav.Link as={NavLink} to="/carrito">
-              Carrito ({items})🛒
-            </Nav.Link>}
-            
-            {user? <NavDropdown title={user ? user.username : "user"}>
-              {/* <NavDropdown.Item as={NavLink} to="">
+                <Nav.Link as={NavLink} to="/carrito" >
+                  Carrito ({items})🛒
+                </Nav.Link>
+              
+
+            {user.username ? (
+              <NavDropdown title={user ? user.username : "user"}>
+                {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}
-              <NavDropdown.Item
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  console.log("token eliminado");
-                  window.location.reload();
-                }}
-              >
-                Cerrar sesion
-              </NavDropdown.Item>
-            </NavDropdown>
-            :
-            
-            <Nav.Link as={NavLink} to="/login">
-              Acceder
-            </Nav.Link>
-             }
-            
+                <NavDropdown.Item
+                  // onClick={() => {
+                  //   localStorage.removeItem("token");
+                  //   console.log("token eliminado");
+                  //   window.location.reload();
+                  // }}
+                  onClick={onLogoutClick}
+                >
+                  Cerrar sesion
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <Nav.Link onClick={onLoginClick}>
+                Acceder
+              </Nav.Link>
+            )}
           </Nav>
 
           <div className="me-3 ms-3">
             <a href="https://vitejs.dev" target="_blank"></a>
-            <a href="https://reactjs.org" target="_blank">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
+            <Nav.Link as={NavLink} to="/info">
+              <a >
+                <img src={reactLogo} className="logo react" alt="React logo" />
+              </a>
+            </Nav.Link>
           </div>
         </Navbar.Collapse>
       </Navbar>

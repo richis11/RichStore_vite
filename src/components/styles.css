@@ -1,6 +1,12 @@
 .chat-toggle-button {
   position: fixed;
   bottom: 20px;
+  right: 125px;
+  z-index: 1000;
+}
+.chat-toggle-button2 {
+  position: fixed;
+  bottom: 20px;
   right: 20px;
   z-index: 1000;
 }

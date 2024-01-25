@@ -2,6 +2,9 @@ import api from "./api";
 
 const baseURL = "/productos";
 
+const buscarProductos= async(query)=>{
+    return (await api.get(`${baseURL}/search/?query=${query}`)).data;
+}
 const getProductos= async()=>{
     return (await api.get(`${baseURL}`)).data;
 }
@@ -30,5 +33,6 @@ export default {
     crearProducto,
     editarProducto,
     eliminarProducto,
-    getNewProducts
+    getNewProducts,
+    buscarProductos
 }

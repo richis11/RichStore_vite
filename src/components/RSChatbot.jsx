@@ -1,81 +1,95 @@
-import React from "react";
-import { Card, Button } from "react-bootstrap";
-//import bot from "../images/bot.jpg"
+// src/components/ChatComponent.js
+import React, { useState } from 'react';
 import ChatBot from 'react-simple-chatbot';
+import { Button } from 'react-bootstrap';
+import './styles.css';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
-const steps = [
-  {
-      id: '0',
-      message: 'Hola Crack!',
 
-      // This calls the next id
-      // i.e. id 1 in this case
-      trigger: '1',
-  }, {
+const ResponseComponent = ({ steps, triggerNextStep }) => {
+  const [loading, setLoading] = useState(true);
+  const [response, setResponse] = useState('');
+  const {user} = useContext(UserContext)
+
+
+  const fetchResponse = async () => {
+    const userInput = steps.userInput.value;
+    try {
+      const res = await fetch('http://localhost:3001/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto: userInput, user: user.username, userid: user.userid}),
+      });
+      const data = await res.json();
+      setResponse(data.result);
+      setLoading(false);
+      triggerNextStep();
+    } catch (error) {
+      console.error(error);
+      setResponse('Lo siento, hubo un error. Por favor, inténtalo de nuevo.');
+      setLoading(false);
+      triggerNextStep();
+    }
+  };
+
+  React.useEffect(() => {
+    fetchResponse();
+  }, []);
+
+  return (
+    <div style={{borderRadius:'10pt',
+        background: "#6e48aa",
+        color: "white"
+        }}>
+      <div style={{margin:'10pt'}}>
+        {loading ? 'Escribiendo...' : response}
+      </div>
+    </div>
+  );
+};
+
+const ChatComponent = () => {
+    const [chatVisible, setChatVisible] = useState(false);
+const {user} = useContext(UserContext)
+  const steps = [
+    {
       id: '1',
-
-      // This message appears in
-      // the bot chat bubble
-      message: 'Como tu te llama?¿',
-      trigger: '2'
-  }, {
-      id: '2',
-
-      // Here we want the user
-      // to enter input
+      message: '¡Hola '+ user.username +' ¿En qué puedo ayudarte hoy?',
+      trigger: 'userInput',
+    },
+    {
+      id: 'userInput',
       user: true,
-      trigger: '3',
-  }, {
-      id: '3',
-      message: " hola {previousValue}, como te puedo ayudar?",
-      trigger: 4
-  }, {
-      id: '4',
-      // options: [
-           
-      //     // When we need to show a number of
-      //     // options to choose we create alist
-      //     // like this
-      //     // { value: 1, label: 'View Courses' },
-      //     // { value: 2, label: 'Read Articles' },
-
-      // ],
-      user: true,
-      trigger:5,
-      
-  },
-  {id:'5',
-message:"jajaj sin comentarios, hablamos."}
-];
-//____________________________________________________________________________________
-//_____________________________________________________________________________ CODEX
-function Chatbot() {
-
-
-
-
-
-
-  //__________________________________________________________________________________
-  //----------------------------------------------------------------------------- HTML
-  //__________________________________________________________________________________
+      trigger: 'getResponse',
+    },
+    {
+      id: 'getResponse',
+      component: <ResponseComponent />,
+      waitAction: true,
+      trigger: 'userInput',
+    },
+  ];
 
   return (
     <>
-      {/* <Button>
-        <i className="bi bi-robot"></i>
+      <Button
+        onClick={() => setChatVisible(!chatVisible)}
+        className="chat-toggle-button"
+      >
+        Chat <i className="bi bi-robot"></i>
       </Button>
-
-      <Card style={{ width: "5rem", margin: "10px" }}>
-      <Card.Img variant="top" src={bot} alt="imagen producto" />
-      </Card> */}
-
-<div className="App">
-            
-            <ChatBot steps={steps} />
-        </div>
+      <div className={`chat-container ${chatVisible ? '' : 'chat-hidden'}`}>
+        <ChatBot
+          steps={steps}
+          botDelay={200}
+          userDelay={200}
+          customDelay={200}
+          headerTitle="ChatBot - Node"
+        />
+      </div>
     </>
   );
-}
+};
 
-export default Chatbot;
+export default ChatComponent;

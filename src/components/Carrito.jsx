@@ -10,7 +10,7 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import { CarritoContext } from "../context/CarritoContext";
 import cliente_service from "../services/cliente_service";
 import venta_service from "../services/venta_service";
@@ -19,7 +19,7 @@ import productExample from "../images/productExample2.png";
 import { v4 as uuidV4 } from "uuid";
 import envio_service from "../services/envio_service";
 
-import {toast, ToastContainer} from 'react-toastify'
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { UserContext } from "../context/UserContext";
@@ -28,11 +28,17 @@ import { UserContext } from "../context/UserContext";
 //_____________________________________________________________________________ CODEX
 
 function Carrito() {
-  const { items, SetItems, carrito, SetCarrito, quitar_del_carrito, cantidad_item } =
-    useContext(CarritoContext);
+  const {
+    items,
+    SetItems,
+    carrito,
+    SetCarrito,
+    quitar_del_carrito,
+    cantidad_item,
+  } = useContext(CarritoContext);
 
-    const {user} = useContext(UserContext)
-  
+  const { user } = useContext(UserContext);
+
   const [venta, SetVenta] = useState({
     id_transaccion: "",
     fecha: null,
@@ -86,35 +92,42 @@ function Carrito() {
   const vaciarCarrito = () => {
     SetCarrito([]);
     SetItems(0);
-    vaciarCliente()
-    handleClose()
+    vaciarCliente();
+    handleClose();
   };
 
-  const completar_compra =()=>{
+  const completar_compra = () => {
     const nombres = cliente.nombres;
-    const palabras = nombres.split(' '); // Dividir el string en palabras utilizando el espacio como separador
+    const palabras = nombres.split(" "); // Dividir el string en palabras utilizando el espacio como separador
     const primeraPalabra = palabras[0]; // Obtener el primer elemento del arreglo de palabras
 
-    Swal.fire({title:'🤑COMPRA EXITOSA🤑 ',html:`<p>La compra se realizó con éxito ${primeraPalabra}, en breves te llegará un correo con la factura de tu compra, ahora solo te queda esperar el envío, si en una semana no ha llegado comunícate con el centro de ayuda y soporte para un reembolso.<p/> <h4>Gracias por comprar en RichStore :D<h4/> <h3>Te queremos mucho ❤<h3/>`, icon:'success'})
-    vaciarCarrito()
-  }
+    Swal.fire({
+      title: "🤑COMPRA EXITOSA🤑 ",
+      html: `<p>La compra se realizó con éxito ${primeraPalabra}, en breves te llegará un correo con la factura de tu compra, ahora solo te queda esperar el envío, si en una semana no ha llegado comunícate con el centro de ayuda y soporte para un reembolso.<p/> <h4>Gracias por comprar en RichStore :D<h4/> <h3>Te queremos mucho ❤<h3/>`,
+      icon: "success",
+    });
+    vaciarCarrito();
+  };
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => {setShow(true)
-  crearVenta()
-  {user.role === 'admin' && getClientes()}
-  }
+  const handleShow = () => {
+    setShow(true);
+    crearVenta();
+    {
+      user.role === "admin" && getClientes();
+    }
+  };
 
   useEffect(() => {
     calcularVenta();
-   
-    if(!!user && user.role === 'admin')
-    {
-      crearVenta()
-    }
-    else{
-      getClienteUserid(user.userid)
+
+    if (!!user && user.role === "admin") {
+      console.log('>>>>>> ENTRANDO EN IF >>>>>')
+      crearVenta();
+    } else {
+      console.log('<<<<<< ENTRANDO EN ELSE <<<<<<')
+      getClienteUserid(user.userid);
     }
   }, [items, cliente]);
 
@@ -124,7 +137,7 @@ function Carrito() {
     let total = 0;
     let descuento = 0;
     carrito.map((producto) => {
-      subtotal += (producto.precio*producto.cantidad);
+      subtotal += producto.precio * producto.cantidad;
       iva = subtotal * 0.12;
       total = subtotal + iva;
     });
@@ -158,8 +171,8 @@ function Carrito() {
 
   const seleccionarCliente = (id) => {
     if (id != 0) {
-      SetCliente(getCliente(id))
-      crearVenta()
+      SetCliente(getCliente(id));
+      crearVenta();
     } else {
       vaciarCliente();
     }
@@ -198,10 +211,8 @@ function Carrito() {
         cant_productos: items,
         total: venta.total,
         fecha_facturacion: Date(),
-        estado: "📃Facturado"
-      })
-
-
+        estado: "📃Facturado",
+      });
 
       console.log("UUID: " + uuidTransaccion);
     } else {
@@ -223,10 +234,9 @@ function Carrito() {
 
       envio_service.crearEnvio(envio);
 
-      completar_compra()
-
+      completar_compra();
     } else {
-      toast.info("Debes seleccionar el cliente!",{autoClose:1500});
+      toast.info("Debes seleccionar el cliente!", { autoClose: 1500 });
     }
   };
 
@@ -239,120 +249,138 @@ function Carrito() {
       <div className="container mt-3">
         <Row>
           <Col>
-          {items!=0 ? 
-          <Button
-          style={{ textAlign: "left" }}
-          variant="outline-dark"
-          onClick={vaciarCarrito}
-        >
-          Vaciar el carrito
-        </Button>
-        :''
-         }
-            
+            {items != 0 ? (
+              <Button
+                style={{ textAlign: "left" }}
+                variant="outline-dark"
+                onClick={vaciarCarrito}
+              >
+                Vaciar el carrito
+              </Button>
+            ) : (
+              ""
+            )}
           </Col>
           <Col>
             <h1 style={{ textAlign: "right" }}>Carrito🛒</h1>
           </Col>
         </Row>
         <hr />
-        {items ? <Row>
-          <Col>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Categoria</th>
-                  <th>Descripción</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                </tr>
-              </thead>
-              <tbody>
-                {carrito.map((producto, indice) => (
-                  <tr key={producto.id_producto}>
-                    <td>{producto.nombre}</td>
-                    <td>{producto.categoria}</td>
-                    <td>{producto.descripcion}</td>
-                    <td>${producto.precio}</td>
-                    <td>
-                      <InputGroup aria-label="Basic example">
-                        <ButtonGroup>
-                          <Button variant="secondary" onClick={()=>cantidad_item(indice,'-')}>-</Button>
-                          <InputGroup.Text>{producto.cantidad}</InputGroup.Text>
-                          <Button variant="secondary" onClick={()=>cantidad_item(indice,'+')}>+</Button>
-                        </ButtonGroup>
-                      </InputGroup>
-                    </td>
-
-
-                    <td>
-                      <Button
-                        variant="outline-dark"
-                        onClick={() => quitar_del_carrito(producto)}
-                      >
-                        Quitar
-                      </Button>
-                    </td>
+        {items ? (
+          <Row>
+            <Col>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-          </Col>
-          <Col sm={3}>
-            <Card className="p-3">
-              <h3>Resumen de la compra</h3>
-              <Row>
-                <strong style={{ width: "50%" }}>Cant. Items: </strong>
-                <span style={{ textAlign: "right", width: "50%" }}>
-                  {items}
-                </span>
-              </Row>
-              <hr />
-              <Row>
-                <strong style={{ width: "50%" }}>Subtotal: </strong>
-                <span style={{ textAlign: "right", width: "50%" }}>
-                  $ {venta.subtotal}
-                </span>
-              </Row>
-              <hr />
-              <Row>
-                <strong style={{ width: "50%" }}>IVA 12%: </strong>
-                <span style={{ textAlign: "right", width: "50%" }}>
-                  $ {venta.iva.toFixed(2)}
-                </span>
-              </Row>
-              <hr />
-              <Row>
-                <strong style={{ width: "50%" }}>Descuento: </strong>
-                <span style={{ textAlign: "right", width: "50%" }}>
-                  ...prox...✨
-                </span>
-              </Row>
-              <hr />
+                </thead>
+                <tbody>
+                  {carrito.map((producto, indice) => (
+                    <tr key={producto.id_producto}>
+                      <td>{producto.nombre}</td>
+                      <td>{producto.categoria}</td>
+                      <td>{producto.descripcion}</td>
+                      <td>${producto.precio}</td>
+                      <td>
+                        <InputGroup aria-label="Basic example">
+                          <ButtonGroup>
+                            <Button
+                              variant="secondary"
+                              onClick={() => cantidad_item(indice, "-")}
+                            >
+                              -
+                            </Button>
+                            <InputGroup.Text>
+                              {producto.cantidad}
+                            </InputGroup.Text>
+                            <Button
+                              variant="secondary"
+                              onClick={() => cantidad_item(indice, "+")}
+                            >
+                              +
+                            </Button>
+                          </ButtonGroup>
+                        </InputGroup>
+                      </td>
 
-              <Row>
-                <strong style={{ width: "50%" }}>TOTAL: </strong>
-                <span style={{ textAlign: "right", width: "50%" }}>
-                  <strong>$ {venta.total.toFixed(2)}</strong>
-                </span>
-              </Row>
-              <br />
-              <Button
-                variant="warning"
-                onClick={() => {
-                  if (items > 0) {
-                    handleShow();
-                  } else {
-                    toast.info("El carrito esta vacio");
-                  }
-                }}
-              >
-                Proceder a pagar
-              </Button>
-            </Card>
-          </Col>
-        </Row>:<><h1>El carrito está vacio</h1> <h3>Agrega productos y aparecerán aqui :D</h3></>}
+                      <td>
+                        <Button
+                          variant="outline-dark"
+                          onClick={() => quitar_del_carrito(producto)}
+                        >
+                          Quitar
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+            <Col sm={3}>
+              <Card className="p-3">
+                <h3>Resumen de la compra</h3>
+                <Row>
+                  <strong style={{ width: "50%" }}>Cant. Items: </strong>
+                  <span style={{ textAlign: "right", width: "50%" }}>
+                    {items}
+                  </span>
+                </Row>
+                <hr />
+                <Row>
+                  <strong style={{ width: "50%" }}>Subtotal: </strong>
+                  <span style={{ textAlign: "right", width: "50%" }}>
+                    $ {venta.subtotal}
+                  </span>
+                </Row>
+                <hr />
+                <Row>
+                  <strong style={{ width: "50%" }}>IVA 12%: </strong>
+                  <span style={{ textAlign: "right", width: "50%" }}>
+                    $ {venta.iva.toFixed(2)}
+                  </span>
+                </Row>
+                <hr />
+                <Row>
+                  <strong style={{ width: "50%" }}>Descuento: </strong>
+                  <span style={{ textAlign: "right", width: "50%" }}>
+                    ...prox...✨
+                  </span>
+                </Row>
+                <hr />
+
+                <Row>
+                  <strong style={{ width: "50%" }}>TOTAL: </strong>
+                  <span style={{ textAlign: "right", width: "50%" }}>
+                    <strong>$ {venta.total.toFixed(2)}</strong>
+                  </span>
+                </Row>
+                <br />
+                <Button
+                  variant="warning"
+                  onClick={() => {
+                    if (items > 0) {
+                      handleShow();
+                    } else {
+                      toast.info("El carrito esta vacio");
+                    }
+                  }}
+                >
+                  Proceder a pagar
+                </Button>
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          <>
+            <h1>El carrito está vacio</h1>{" "}
+            <h3>Agrega productos y aparecerán aqui :D</h3>
+          </>
+        )}
       </div>
 
       {/* ------------------------------------------------------------  MODAL PAGAR  */}
@@ -365,27 +393,27 @@ function Carrito() {
           <h5>
             Estas a punto de realizar una compra EN LA MEJOR TIENDA ONLINE 😎🤑
           </h5>
-          {!!user && user.role === 'admin' &&
-          <>
-          <br />
-          <h5>Modo admin!</h5>
-          <span>Selecciona el cliente para esta venta:</span>
-          <Form.Select
-            name="cliente"
-            onChange={(e) => seleccionarCliente(e.target.value)}
-          >
-            <option key={0} value={0}>
-              Seleccionar cliente...
-            </option>
-            {clientes.map((cliente) => (
-              <option key={cliente.id} value={cliente.id}>
-                {cliente.nombres}
-              </option>
-            ))}
-          </Form.Select>
-          </>
-          }
-          
+          {!!user && user.role === "admin" && (
+            <>
+              <br />
+              <h5>Modo admin!</h5>
+              <span>Selecciona el cliente para esta venta:</span>
+              <Form.Select
+                name="cliente"
+                onChange={(e) => seleccionarCliente(e.target.value)}
+              >
+                <option key={0} value={0}>
+                  Seleccionar cliente...
+                </option>
+                {clientes.map((cliente) => (
+                  <option key={cliente.id} value={cliente.id}>
+                    {cliente.nombres}
+                  </option>
+                ))}
+              </Form.Select>
+            </>
+          )}
+
           <br />
           <h5>Método de pago</h5>
           <Form.Select
@@ -405,8 +433,8 @@ function Carrito() {
           <br />
           <h5>
             Vas a realizar el pago de <strong>{items}</strong> {un_producto()}{" "}
-            por un Total de <strong>${venta.total.toFixed(2)}</strong> dólares, ¿deseas
-            continuar?
+            por un Total de <strong>${venta.total.toFixed(2)}</strong> dólares,
+            ¿deseas continuar?
           </h5>
         </Modal.Body>
         <Modal.Footer>
@@ -419,7 +447,7 @@ function Carrito() {
         </Modal.Footer>
       </Modal>
 
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

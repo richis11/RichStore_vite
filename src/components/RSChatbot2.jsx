@@ -16,7 +16,10 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
   const fetchResponse = async () => {
     const userInput = steps.userInput.value;
     try {
-      const res = await fetch('http://localhost:3001/api/generate', {
+      console.log(JSON.stringify({ texto: userInput, user: user.username, userid: user.userid}))
+
+      const res = await fetch('http://localhost:5000/api/generate', {
+      //const res = await fetch('http://richard11.pythonanywhere.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ texto: userInput, user: user.username, userid: user.userid}),
@@ -75,9 +78,10 @@ const {user} = useContext(UserContext)
     <>
       <Button
         onClick={() => setChatVisible(!chatVisible)}
-        className="chat-toggle-button"
+        className="chat-toggle-button2"
+        variant='success'
       >
-        Chat <i className="bi bi-robot"></i>
+        Chat 2 <i className="bi bi-robot"></i>
       </Button>
       <div className={`chat-container ${chatVisible ? '' : 'chat-hidden'}`}>
         <ChatBot
@@ -85,7 +89,7 @@ const {user} = useContext(UserContext)
           botDelay={200}
           userDelay={200}
           customDelay={200}
-          headerTitle="ChatBot"
+          headerTitle="ChatBot - Python"
         />
       </div>
     </>

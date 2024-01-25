@@ -23,7 +23,6 @@ function Spawn() {
   const token = localStorage.getItem("token");
   let tokenExistAndIsValid = true;
 
-
   useEffect(() => {
     
 
@@ -37,18 +36,28 @@ function Spawn() {
         const role = parseJwt(token).role
 
         const user = {userid, username, role}
-
       SetUser(user)
-
-      
-      
     } else {
       console.log("no existe ningun token");
      
     }
   }, []);
 
-  // function setToken(e) {
+  //----------------------------------------------
+  return (
+    <>
+      {/* {!tokenExistAndIsValid ? <App /> : <Login />} */}
+      <App />
+    
+    </>)
+}
+
+export default Spawn;
+
+
+
+
+// function setToken(e) {
   //   const token = window.prompt(
   //     "token",
   //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoiNjgwMGEzNDMtOGI2Ni00NWY0LTgyOGMtYmNmOTA2ZDdkZmIxIiwiaWRfcm9sZSI6MTAwLCJyb2xlX25hbWUiOiJERVYiLCJpZF9zdGF0dXMiOjIwMCwic3RhdHVzX25hbWUiOiJBY3RpdmEiLCJ1c2VybmFtZSI6ImRldiIsIm5hbWUiOiJEZXZlbG9wZXIgTm9haCIsInNwZWNpYWxpdHkiOiJXZWIgRGV2ZWxvcG1lbnQiLCJjcmVhdGVkX2F0IjoiMjAyMy0wMS0yM1QyMToxOTozNS4yNDFaIiwiaWF0IjoxNjc0NTMxNDYwfQ.njcX1lnko9b-qMyE22H-CSMb92B-6YGogZooQNIfaes"
@@ -62,14 +71,3 @@ function Spawn() {
   // setToken()
   //let tokenExistAndIsValid = true
   //
-  //----------------------------------------------
-  return (
-    <>
-      {!tokenExistAndIsValid ? <App /> : <Login />}
-      {/* <App /> */}
-    
-      
-    </>)
-}
-
-export default Spawn;
