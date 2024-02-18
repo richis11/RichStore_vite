@@ -24,10 +24,12 @@ import { UserContext } from "./context/UserContext";
 import NewClient from "./components/NewClient";
 import Login from "./components/Login";
 import Analytics from "./components/Analytics";
+import Sign_in from "./components/Sign_in";
 
 function App() {
   const { user, SetUser } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
+  const [showSign_in, setShowSign_in] = useState(false);
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -37,10 +39,9 @@ function App() {
     // Lógica de cierre de sesión
     localStorage.removeItem("token");
     console.log("token eliminado");
-    SetUser({})
-    navigate('/');
+    SetUser({});
+    navigate("/");
     //window.location.reload();
-  
   };
 
   const pageNotFound = () => {
@@ -54,14 +55,20 @@ function App() {
 
   return (
     <div className="App">
-      
-
-      {!showLogin ? (
-        <>
-        <ItemNavbar
-        onLoginClick={handleLoginClick}
-        onLogoutClick={handleLogoutClick}
+      {showLogin ? (
+        <Login
+          onLoginSuccess={() => setShowLogin(false)}
+          setShowLogin={setShowLogin}
+          setShowSign_in={setShowSign_in}
         />
+      ) : showSign_in ? (
+        <Sign_in setShowSign_in={setShowSign_in}/>
+      ) : (
+        <>
+          <ItemNavbar
+            onLoginClick={handleLoginClick}
+            onLogoutClick={handleLogoutClick}
+          />
           <Routes>
             {/* <Route path="/login" element={<Login />} /> */}
             <Route path="/newuser" element={<NewClient />} />
@@ -73,6 +80,7 @@ function App() {
             <Route>
               <Route path="/productos" element={<TarjetasProductos />} />
               <Route path="/carrito" element={<Carrito />} />
+              <Route path="/sign_in" element={<Sign_in />} />
             </Route>
 
             <Route
@@ -126,12 +134,9 @@ function App() {
           </Routes>
           {/* <OpenAI_chatbot></OpenAI_chatbot> */}
           {/* <RSChatbot></RSChatbot> */}
-          <RSChatbot></RSChatbot>
-          <RSChatbot2></RSChatbot2>
+          {/* <RSChatbot></RSChatbot> */}
+          {user.username? <RSChatbot2 />: <></>}
         </>
-      ) : (
-        <Login onLoginSuccess={() => setShowLogin(false)}
-        setShowLogin={setShowLogin} />
       )}
     </div>
   );

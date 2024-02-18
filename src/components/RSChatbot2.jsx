@@ -81,7 +81,7 @@ const {user} = useContext(UserContext)
         className="chat-toggle-button2"
         variant='success'
       >
-        Chat 2 <i className="bi bi-robot"></i>
+        Chat <i className="bi bi-robot"></i>
       </Button>
       <div className={`chat-container ${chatVisible ? '' : 'chat-hidden'}`}>
         <ChatBot

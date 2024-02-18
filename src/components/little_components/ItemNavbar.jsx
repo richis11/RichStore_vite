@@ -42,9 +42,9 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
           ⭐ RICH STORE ⭐
         </NavbarBrand>
         <Nav>
-            <Nav.Link as={NavLink} to="/novedades">
-              Novedades
-            </Nav.Link>
+          <Nav.Link as={NavLink} to="/novedades">
+            Novedades
+          </Nav.Link>
 
           {!!user && user.role === "admin" && (
             <>
@@ -69,11 +69,10 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
               </NavDropdown>
             </>
           )}
-          
-              <Nav.Link as={NavLink} to="/productos">
-                Productos
-              </Nav.Link>
-            
+
+          <Nav.Link as={NavLink} to="/productos">
+            Productos
+          </Nav.Link>
 
           {!!user &&
             (user.role === "admin" ||
@@ -101,9 +100,8 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
         </Nav>
 
         <Navbar.Collapse className="justify-content-end ms-3 ">
-          <InputGroup >
+          <InputGroup>
             <Form.Control
-             
               type="text"
               placeholder="Buscar..."
               aria-label="Input group example"
@@ -113,15 +111,14 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
               onKeyDown={handleKeyDown}
             />
             <Button variant="secondary">
-              <i class="bi bi-search" onClick={handleSubmit}></i>
+              <i className="bi bi-search" onClick={handleSubmit}></i>
             </Button>
           </InputGroup>
 
           <Nav>
-                <Nav.Link as={NavLink} to="/carrito" >
-                  Carrito ({items})🛒
-                </Nav.Link>
-              
+            <Nav.Link as={NavLink} to="/carrito">
+              Carrito ({items})🛒
+            </Nav.Link>
 
             {user.username ? (
               <NavDropdown title={user ? user.username : "user"}>
@@ -140,18 +137,14 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Nav.Link onClick={onLoginClick}>
-                Acceder
-              </Nav.Link>
+              <Nav.Link onClick={onLoginClick}>Acceder</Nav.Link>
             )}
           </Nav>
 
           <div className="me-3 ms-3">
-            <a href="https://vitejs.dev" target="_blank"></a>
+            <a></a>
             <Nav.Link as={NavLink} to="/info">
-              <a >
-                <img src={reactLogo} className="logo react" alt="React logo" />
-              </a>
+              <img src={reactLogo} className="logo react" alt="React logo" />
             </Nav.Link>
           </div>
         </Navbar.Collapse>
