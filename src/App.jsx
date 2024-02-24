@@ -80,7 +80,7 @@ function App() {
             <Route>
               <Route path="/productos" element={<TarjetasProductos />} />
               <Route path="/carrito" element={<Carrito />} />
-              <Route path="/sign_in" element={<Sign_in />} />
+              
             </Route>
 
             <Route

@@ -38,8 +38,9 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
   return (
     <>
       <Navbar bg="dark" variant="dark">
+        <div>xx</div>
         <NavbarBrand as={NavLink} to="/">
-          ⭐ RICH STORE ⭐
+           <h4>RICH STORE </h4>
         </NavbarBrand>
         <Nav>
           <Nav.Link as={NavLink} to="/novedades">

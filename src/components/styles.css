@@ -9,6 +9,7 @@
   bottom: 20px;
   right: 20px;
   z-index: 1000;
+  
 }
 
 .chat-container {
@@ -19,6 +20,7 @@
   height: 590px;
   border: 1px solid #ccc;
   z-index: 999;
+  
 }
 
 .chat-hidden {
@@ -27,6 +29,6 @@
 
 .chat-response {
   border: 10pt;
-  background: "#6e48aa";
+  background: "#242424";
   color: "white";
 }
