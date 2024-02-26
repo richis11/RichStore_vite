@@ -3,11 +3,13 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 body{
   background: url("./images/bg_white_elegant.avif") no-repeat center center fixed;
     height: 100%;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+   
     
 }
 

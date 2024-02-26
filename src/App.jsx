@@ -64,7 +64,7 @@ function App() {
       ) : showSign_in ? (
         <Sign_in setShowSign_in={setShowSign_in}/>
       ) : (
-        <>
+        <div style={{ marginTop: '90px' }}>
           <ItemNavbar
             onLoginClick={handleLoginClick}
             onLogoutClick={handleLogoutClick}
@@ -136,7 +136,7 @@ function App() {
           {/* <RSChatbot></RSChatbot> */}
           {/* <RSChatbot></RSChatbot> */}
           {user.username? <RSChatbot2 />: <></>}
-        </>
+        </div>
       )}
     </div>
   );
