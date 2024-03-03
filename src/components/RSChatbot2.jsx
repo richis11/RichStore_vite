@@ -46,7 +46,7 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
     let producto_result = await producto_service.getProducto(id);
     console.log(producto_result);
 
-    const palabras = producto.descripcion.split(/\s+/); // Divide por espacios
+    const palabras = producto_result.descripcion.split(/\s+/); // Divide por espacios
     const nPalabras = palabras.length;
     let primerasPalabras = palabras.slice(0, 15).join(" "); // Toma las primeras n palabras y une con espacio
 
@@ -107,59 +107,59 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
     fetchResponse();
   }, []);
 
-  const getProduct = async (id) => {
-    try {
-      let product_result;
-      if (id) {
-        // Llamada a la función de búsqueda con el término 'query'
-        product_result = await producto_service.getProducto(id);
-      } else {
-        // Llamada para obtener todos los productos si no hay término de búsqueda
-        alert("NO HAY UN QUERY PARA EL PRODUCTO");
-        return;
-      }
-      SetProducto(product_result);
-      console.log(product_result);
+  // const getProduct = async (id) => {
+  //   try {
+  //     let product_result;
+  //     if (id) {
+  //       // Llamada a la función de búsqueda con el término 'query'
+  //       product_result = await producto_service.getProducto(id);
+  //     } else {
+  //       // Llamada para obtener todos los productos si no hay término de búsqueda
+  //       alert("NO HAY UN QUERY PARA EL PRODUCTO");
+  //       return;
+  //     }
+  //     SetProducto(product_result);
+  //     console.log(product_result);
 
-      const palabras = product_result.descripcion.split(/\s+/); // Divide por espacios
-      const nPalabras = product_result.length;
-      let primerasPalabras = palabras.slice(0, 15).join(" "); // Toma las primeras n palabras y une con espacio
+  //     const palabras = product_result.descripcion.split(/\s+/); // Divide por espacios
+  //     const nPalabras = product_result.length;
+  //     let primerasPalabras = palabras.slice(0, 15).join(" "); // Toma las primeras n palabras y une con espacio
 
-      if (nPalabras > 15) {
-        primerasPalabras = primerasPalabras + "...";
-      }
+  //     if (nPalabras > 15) {
+  //       primerasPalabras = primerasPalabras + "...";
+  //     }
 
-      Set_cart_product({
-        id_producto: product_result.id,
-        id_transaccion: "XXXX-XXXX-XXXX",
-        nombre: product_result.nombre,
-        categoria: product_result.categoria,
-        descripcion: primerasPalabras,
-        precio: product_result.precio_ven,
-        cantidad: 1,
-      });
+  //     Set_cart_product({
+  //       id_producto: product_result.id,
+  //       id_transaccion: "XXXX-XXXX-XXXX",
+  //       nombre: product_result.nombre,
+  //       categoria: product_result.categoria,
+  //       descripcion: primerasPalabras,
+  //       precio: product_result.precio_ven,
+  //       cantidad: 1,
+  //     });
 
-      //   calcularCantItems(product_result.id);
-    } catch (error) {
-      if (error.response) {
-        // El servidor respondió con un código de estado fuera del rango 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+  //     //   calcularCantItems(product_result.id);
+  //   } catch (error) {
+  //     if (error.response) {
+  //       // El servidor respondió con un código de estado fuera del rango 2xx
+  //       console.log(error.response.data);
+  //       console.log(error.response.status);
+  //       console.log(error.response.headers);
 
-        // Mostrar mensaje de error
-        toast.error(error.response.data.msg || "Error al buscar productos");
-      } else if (error.request) {
-        // La solicitud fue hecha pero no se recibió respuesta
-        console.log(error.request);
-        toast.error("No se pudo obtener una respuesta del servidor");
-      } else {
-        // Algo ocurrió al configurar la solicitud
-        console.log("Error", error.message);
-        toast.error("Error al realizar la solicitud");
-      }
-    }
-  };
+  //       // Mostrar mensaje de error
+  //       toast.error(error.response.data.msg || "Error al buscar productos");
+  //     } else if (error.request) {
+  //       // La solicitud fue hecha pero no se recibió respuesta
+  //       console.log(error.request);
+  //       toast.error("No se pudo obtener una respuesta del servidor");
+  //     } else {
+  //       // Algo ocurrió al configurar la solicitud
+  //       console.log("Error", error.message);
+  //       toast.error("Error al realizar la solicitud");
+  //     }
+  //   }
+  // };
 
   const navigate = useNavigate();
 
