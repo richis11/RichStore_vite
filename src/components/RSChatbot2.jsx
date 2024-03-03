@@ -79,8 +79,8 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
         })
       );
 
-      const res = await fetch("http://localhost:5000/api/generate", {
-        //  const res = await fetch('https://richard11.pythonanywhere.com/api/generate', {
+      //const res = await fetch("http://localhost:5000/api/generate", {
+          const res = await fetch('https://richard11.pythonanywhere.com/api/generate', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -178,7 +178,7 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
               key={index}
               as={NavLink}
               to={part}
-              className="w-100 mb-2"
+              className="w-100 mb-2 mt-1"
             >
               Ver el producto
             </Button>
