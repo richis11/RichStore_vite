@@ -122,7 +122,7 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
             </Nav.Link>
 
             {user.username ? (
-              <NavDropdown title={user ? user.username : "user"}>
+              <NavDropdown title={user ? <h5>{user.username}</h5> : "user"}>
                 {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}
@@ -138,7 +138,7 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Nav.Link onClick={onLoginClick}>Acceder</Nav.Link>
+              <Nav.Link onClick={onLoginClick}><h5>Acceder</h5></Nav.Link>
             )}
           </Nav>
 
