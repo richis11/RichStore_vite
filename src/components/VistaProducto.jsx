@@ -161,9 +161,9 @@ function VistaProducto() {
             style={{ objectFit: "cover", height: "20rem" }}
           />
           
-          <Card.ImgOverlay style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', display: 'flex', justifyContent: 'end', alignItems: 'center',marginBottom:'-12rem', color:'white'}}>
+          {/* <Card.ImgOverlay style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', display: 'flex', justifyContent: 'end', alignItems: 'center',marginBottom:'-12rem', color:'white'}}>
           {id == "0" || !producto.nombre ? <><h1 style={{ textAlign: 'center' }}>ESTE PRODUCTO NO EXISTE...</h1></> :<></>}
-        </Card.ImgOverlay>
+        </Card.ImgOverlay> */}
           {id == "0" || !producto.nombre ? (
         
                 <div onClick={() => navigate(`/productos`)}>
