@@ -432,6 +432,8 @@ function AdmProductos() {
 
             <Form.Label>Descripción</Form.Label>
             <Form.Control
+              as="textarea"
+              rows={5}
               name="descripcion"
               onChange={handleChange}
               value={producto.descripcion}

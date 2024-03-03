@@ -1,12 +1,13 @@
 // src/components/ChatComponent.js
 import React, { useState } from "react";
 import ChatBot from "react-simple-chatbot";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "./styles.css";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 import { ThemeProvider } from "styled-components";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // TEMA PAL CHATBOT
 const theme = {
@@ -48,7 +49,11 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
         }),
       });
       const data = await res.json();
+
       setResponse(data.result);
+
+
+
       setLoading(false);
       triggerNextStep();
     } catch (error) {
@@ -63,12 +68,29 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
     fetchResponse();
   }, []);
 
+  const navigate = useNavigate();
+
+  function linkify(inputText) {
+    const regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/ig;
+    return inputText.split(regex).map((part, index) => {
+      // Esto verifica si la parte es una URL.
+      if (part.match(regex)) {
+        return <Form.Text style={{color:'cyan'}} key={index} as={NavLink} to={part} 
+        >{part}</Form.Text>;
+      } else {
+        return part;
+      }
+    });
+  }
+
+
+
   return (
     <div
       style={{ borderRadius: "10pt", background: "#323232", color: "white" }}
     >
       <div style={{ margin: "10pt" }}>
-        {loading ? "Escribiendo..." : response}
+        {loading ? "Escribiendo..." : linkify(response)}
       </div>
     </div>
   );

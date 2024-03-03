@@ -25,6 +25,7 @@ import NewClient from "./components/NewClient";
 import Login from "./components/Login";
 import Analytics from "./components/Analytics";
 import Sign_in from "./components/Sign_in";
+import VistaProducto from "./components/VistaProducto";
 
 function App() {
   const { user, SetUser } = useContext(UserContext);
@@ -79,6 +80,7 @@ function App() {
 
             <Route>
               <Route path="/productos" element={<TarjetasProductos />} />
+              <Route path="/producto" element={<VistaProducto />} />
               <Route path="/carrito" element={<Carrito />} />
               
             </Route>

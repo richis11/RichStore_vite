@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import { Card, Row, Col, InputGroup, ButtonGroup } from "react-bootstrap";
 import productExample from "../../images/productExample2.png";
 import { CarritoContext } from "../../context/CarritoContext";
+import VistaProducto from "../VistaProducto";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function CardProducto({ producto }) {
   const {
@@ -32,6 +34,8 @@ function CardProducto({ producto }) {
       });
     }
   };
+
+  const navigate = useNavigate();
 
 
   const operacion = (ope) => {
@@ -83,21 +87,22 @@ function CardProducto({ producto }) {
   }, [carrito]);
 
   return (
-    <Card
+    <Card 
       style={{ width: "18rem", margin: "10px" }}
-      onClick={() => console.log("click en tarjeta")}
+
     >
       <Card.Img
         variant="top"
         src={producto.imgUrl ? producto.imgUrl : productExample}
         alt="imagen producto"
         style={{ objectFit: "cover", height: "150px" }}
+        onClick={() => navigate(`/producto?id=${encodeURIComponent(cart_product.id_producto)}`)}
       />
 
       <Card.Body className="d-flex flex-column">
         <Row>
           <Col sm={8}>
-            <Card.Title>{cart_product.nombre}</Card.Title>
+            <Card.Title >{cart_product.nombre}</Card.Title>
           </Col>
           <Col>
             <Card.Title style={{ textAlign: "right" }}>
