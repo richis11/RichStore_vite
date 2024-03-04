@@ -37,9 +37,9 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" fixed="top" >
+      <Navbar bg="dark" variant="dark" fixed="top" expand="lg">
         <div>xx</div>
-        <NavbarBrand as={NavLink} to="/">
+        <NavbarBrand as={NavLink} to="/" >
            <h4>RICH STORE </h4>
         </NavbarBrand>
         <Nav>
@@ -101,7 +101,7 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
         </Nav>
 
         <Navbar.Collapse className="justify-content-end ms-3 ">
-          <InputGroup>
+          <InputGroup className="flex-grow-1">
             <Form.Control
               type="text"
               placeholder="Buscar..."
@@ -116,13 +116,13 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
             </Button>
           </InputGroup>
 
-          <Nav>
-            <Nav.Link as={NavLink} to="/carrito">
-              Carrito ({items})🛒
+          <Nav  >
+            <Nav.Link as={NavLink} to="/carrito"  >
+             <h5>Carrito ({items})🛒</h5> 
             </Nav.Link>
 
             {user.username ? (
-              <NavDropdown title={user ? <h5>{user.username}</h5> : "user"}>
+              <NavDropdown title={user ? <h5 >{user.username}</h5> : "user"}>
                 {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}

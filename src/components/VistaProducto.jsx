@@ -10,13 +10,18 @@ import {
   ButtonGroup,
   Container,
   Button,
+  Modal,
 } from "react-bootstrap";
 import productExample from "../images/productExample2.png";
 import { CarritoContext } from "../context/CarritoContext";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function VistaProducto() {
-    const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const navigate = useNavigate();
   const [producto, SetProducto] = useState({
     id: 0,
     id_producto: 0,
@@ -107,16 +112,18 @@ function VistaProducto() {
   useEffect(() => {
     getProduct(id);
   }, [id]); // Solo depende de id para evitar llamadas innecesarias
-  
+
   useEffect(() => {
     // Asegura que esta lógica se ejecute después de que `producto` se haya establecido
     if (producto.id) {
       calcularCantItems();
     }
   }, [producto, carrito]); // Depende de `producto` y `carrito` para recalcular cuando alguno cambie
-  
+
   const calcularCantItems = () => {
-    const itemEncontrado = carrito.find(item => item.id_producto === producto.id);
+    const itemEncontrado = carrito.find(
+      (item) => item.id_producto === producto.id
+    );
     if (itemEncontrado) {
       SetCantidadItems(itemEncontrado.cantidad);
     } else {
@@ -148,23 +155,29 @@ function VistaProducto() {
 
   return (
     <>
-      <Container style={{ marginTop: "8rem" }}>
-        <Card style={id == "0" || !producto.nombre ? { width: "50rem", height: "24rem" } : { width: "50rem", height: "35rem" } }>
+      <Container style={{ marginTop: "8rem", marginBottom: "3rem" }}>
+        <Card
+          style={
+            id == "0" || !producto.nombre
+              ? { width: "50rem", height: "24rem" }
+              : { width: "50rem" }
+          }
+        >
           <Card.Img
             variant="top"
             src={producto.imgUrl ? producto.imgUrl : productExample}
             alt="imagen producto"
             style={{ objectFit: "cover", height: "20rem" }}
+            onClick={handleShowModal}
           />
-          
+
           {/* <Card.ImgOverlay style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', display: 'flex', justifyContent: 'end', alignItems: 'center',marginBottom:'-12rem', color:'white'}}>
           {id == "0" || !producto.nombre ? <><h1 style={{ textAlign: 'center' }}>ESTE PRODUCTO NO EXISTE...</h1></> :<></>}
         </Card.ImgOverlay> */}
           {id == "0" || !producto.nombre ? (
-        
-                <div onClick={() => navigate(`/productos`)}>
-                    <h1 >...Busca otros productos</h1>
-                </div>
+            <div onClick={() => navigate(`/productos`)}>
+              <h1>...Busca otros productos</h1>
+            </div>
           ) : (
             <Card.Body className="d-flex flex-column">
               <Row>
@@ -236,6 +249,47 @@ function VistaProducto() {
           )}
         </Card>
       </Container>
+
+      {/* <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        size="xl"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{producto.nombre}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img
+            src={producto.imgUrl ? producto.imgUrl : productExample}
+            alt="Imagen ampliada del producto"
+            style={{ width: "100%", height: "auto" }} // La imagen es responsiva dentro del modal
+          />
+        </Modal.Body>
+      </Modal> */}
+
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          
+        }}
+
+      >
+        <Modal.Body style={{ display: "flex", padding: 0 }}>
+          <img
+            src={producto.imgUrl}
+            alt="Imagen a tamaño completo"
+            style={{ width: '100%', height: 'auto' }} 
+            onClick={handleCloseModal}
+          />
+        </Modal.Body>
+      </Modal>
 
       <ToastContainer />
     </>
