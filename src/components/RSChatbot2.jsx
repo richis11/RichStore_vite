@@ -79,8 +79,8 @@ const ResponseComponent = ({ steps, triggerNextStep }) => {
         })
       );
 
-      //const res = await fetch("http://localhost:5000/api/generate", {
-          const res = await fetch('https://richard11.pythonanywhere.com/api/generate', {
+      const res = await fetch("http://localhost:5000/api/generate", {
+        //  const res = await fetch('https://richard11.pythonanywhere.com/api/generate', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

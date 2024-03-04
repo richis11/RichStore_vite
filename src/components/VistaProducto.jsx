@@ -105,26 +105,22 @@ function VistaProducto() {
   };
 
   useEffect(() => {
-    getProduct(id).then(calcularCantItems());
-  }, [carrito, location]);
-
-  const calcularCantItems = (producto_result) => {
-    if (!producto_result) {
-      if (carrito.length != 0) {
-        carrito.map((productoCarrito) => {
-          if (producto.id === productoCarrito.id_producto) {
-            SetCantidadItems(productoCarrito.cantidad);
-          }
-        });
-      } else {
-        if (carrito.length != 0) {
-          carrito.map((productoCarrito) => {
-            if (producto_result.id === productoCarrito.id_producto) {
-              SetCantidadItems(productoCarrito.cantidad);
-            }
-          });
-        }
-      }
+    getProduct(id);
+  }, [id]); // Solo depende de id para evitar llamadas innecesarias
+  
+  useEffect(() => {
+    // Asegura que esta lógica se ejecute después de que `producto` se haya establecido
+    if (producto.id) {
+      calcularCantItems();
+    }
+  }, [producto, carrito]); // Depende de `producto` y `carrito` para recalcular cuando alguno cambie
+  
+  const calcularCantItems = () => {
+    const itemEncontrado = carrito.find(item => item.id_producto === producto.id);
+    if (itemEncontrado) {
+      SetCantidadItems(itemEncontrado.cantidad);
+    } else {
+      SetCantidadItems(0); // Asegúrate de resetear a 0 si el producto no está en el carrito
     }
   };
 

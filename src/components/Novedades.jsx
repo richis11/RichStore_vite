@@ -16,9 +16,26 @@ function Novedades() {
     setIndex(selectedIndex);
   };
 
-  const getNewProducts = async () =>{
-    SetProductos(await producto_service.getNewProducts())
-  }
+  const getNewProducts = async () => {
+    try {
+      const productosOriginales = await producto_service.getNewProducts();
+      const productosModificados = productosOriginales.map((producto) => {
+        // Si la descripción es más larga de 150 caracteres, recórtala
+        if (producto.descripcion && producto.descripcion.length > 150) {
+          return {
+            ...producto,
+            descripcion: producto.descripcion.substring(0, 200) + '...'
+          };
+        }
+        return producto;
+      });
+  
+      SetProductos(productosModificados);
+    } catch (error) {
+      console.error("Error al obtener los productos: ", error);
+      // Manejar el error, por ejemplo, mostrando un mensaje al usuario
+    }
+  };
   
   useEffect(() =>{
     getNewProducts()
