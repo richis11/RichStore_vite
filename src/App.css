@@ -58,3 +58,17 @@ body{
     animation: logo-spin infinite 20s linear;
   }
 }
+
+
+.toast-custom-style {
+  top: 78px; /* Ajusta esta propiedad según sea necesario */
+}
+
+
+/* CSS para el ícono personalizado del NavDropdown */
+.custom-dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.5rem;
+  vertical-align: 0.255em;
+  content: ""; /* Anula el ícono por defecto */
+}

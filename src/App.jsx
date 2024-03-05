@@ -65,7 +65,7 @@ function App() {
       ) : showSign_in ? (
         <Sign_in setShowSign_in={setShowSign_in}/>
       ) : (
-        <div style={{ marginTop: '90px' }}>
+        <div style={{ marginTop: '80px' }}>
           <ItemNavbar
             onLoginClick={handleLoginClick}
             onLogoutClick={handleLogoutClick}

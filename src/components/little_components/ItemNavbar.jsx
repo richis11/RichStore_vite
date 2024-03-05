@@ -37,7 +37,7 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" fixed="top" expand="lg">
+      <Navbar bg="dark" variant="dark" fixed="top" expand="lg" style={{height:'50pt'}}>
         <div>xx</div>
         <NavbarBrand as={NavLink} to="/" >
            <h4>RICH STORE </h4>
@@ -104,25 +104,26 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
           <InputGroup className="flex-grow-1">
             <Form.Control
               type="text"
-              placeholder="Buscar..."
+              placeholder="Buscar productos..."
               aria-label="Input group example"
               aria-describedby="btnGroupAddon"
               onChange={(e) => SetBusqueda(e.target.value)}
               value={busqueda}
               onKeyDown={handleKeyDown}
             />
-            <Button variant="secondary">
+            {/* <Button variant="secondary">
               <i className="bi bi-search" onClick={handleSubmit}></i>
-            </Button>
+            </Button> */}
           </InputGroup>
 
-          <Nav  >
-            <Nav.Link as={NavLink} to="/carrito"  >
-             <h5>Carrito ({items})🛒</h5> 
+          <Nav  style={{marginLeft:'10pt', marginRight:'10pt'}}>
+            <Nav.Link as={NavLink} to="/carrito"   >
+             <h5 > [{items}]🛒</h5> 
             </Nav.Link>
 
             {user.username ? (
-              <NavDropdown title={user ? <h5 >{user.username}</h5> : "user"}>
+              <NavDropdown title={user ?<span>{user.username}</span> : "user"} 
+              style={{ display: 'flex', alignItems: 'center', fontSize:'18pt', fontWeight:'bold'}}>
                 {/* <NavDropdown.Item as={NavLink} to="">
                Ver perfil ...prox
              </NavDropdown.Item>  */}
@@ -138,16 +139,17 @@ function ItemNavbar({ onLoginClick, onLogoutClick }) {
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <Nav.Link onClick={onLoginClick}><h5>Acceder</h5></Nav.Link>
+              <Nav.Link  style={{ display: 'flex', alignItems: 'center' }} onClick={onLoginClick}><Button variant="outline-light">Acceder</Button></Nav.Link>
             )}
-          </Nav>
-
-          <div className="me-3 ms-3">
+            {/* <div className="me-3">
             <a></a>
             <Nav.Link as={NavLink} to="/info">
               <img src={reactLogo} className="logo react" alt="React logo" />
             </Nav.Link>
-          </div>
+          </div> */}
+          </Nav>
+
+          
         </Navbar.Collapse>
       </Navbar>
     </>
